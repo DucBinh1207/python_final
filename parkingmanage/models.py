@@ -30,5 +30,6 @@ class Manager(models.Model):
     code = models.TextField(max_length=10)
     username = models.TextField(max_length=255)
     password = models.TextField(max_length=255)
+    role = models.TextField(max_length=255) #administrator quanly
     email = models.EmailField()
     phone = models.TextField(max_length=255)
