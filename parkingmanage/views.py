@@ -1,6 +1,33 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from parkingmanage.forms import UserForm
-from parkingmanage.models import ParkingLog, User, Vehicle
+from parkingmanage.models import ParkingLog, User, Vehicle, Manager
+
+# Login Views
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        try:
+            manage = get_object_or_404(Manager, username=username, password=password)
+            if manage is not None:
+                request.session['username'] = username
+                return redirect('/parkingmanage')
+        except:
+            context = {
+                'error': 'Username or Password is incorrect.',
+                'display': 'block'
+            }
+            return render(request, 'login.html', context)
+    return render(request, 'login.html', { 'display': 'none'})
+
+def login_validate(request, username, password):
+    try:
+        manage = get_object_or_404(Manager, username=username, password=password)
+        if manage is not None:
+            request.session['username'] = username
+            return redirect('/parkingmanage')
+    except:
+        return render(request, 'login.html', {'error': 'Username or Password is incorrect.'})
 
 
 # User View

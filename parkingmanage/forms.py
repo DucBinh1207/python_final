@@ -76,4 +76,3 @@ class UserForm(forms.ModelForm):
         if not new_code.isnumeric():
             raise forms.ValidationError('The code should be digit only!')
         return new_code
-

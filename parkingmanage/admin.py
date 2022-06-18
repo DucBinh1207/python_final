@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ParkingLog, Vehicle, User
+from .models import ParkingLog, Vehicle, User, Manager
 
 class VehicleAdmin(admin.ModelAdmin):
     list_display = ('code','name','phone','email','address')
@@ -9,4 +9,4 @@ class VehicleAdmin(admin.ModelAdmin):
 admin.site.register(ParkingLog)
 admin.site.register(Vehicle)
 admin.site.register(User)
-# admin.site.register(Manager)
+admin.site.register(Manager)
