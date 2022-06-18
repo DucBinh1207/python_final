@@ -44,9 +44,12 @@ def list_view(request):
         users = User.objects.filter(code__icontains=keyword) | User.objects.filter(name__icontains=keyword) 
     else :
         users = User.objects.all()
+
+    vehicles = Vehicle.objects.all()
     context = {
         'keyword': keyword,
-        'users' :users.order_by(Selectsort)    
+        'users' :users.order_by(Selectsort),
+        'vehicles' : vehicles
         }
     return render(request,"list.html",context)   
 
@@ -60,7 +63,7 @@ def detail_view_vehicle(request, licensePlate):
 def list_view_vehicle(request):
     keyword = request.GET.get('keyword')
     Selectsort = request.GET.get('selectsort')
-    if Selectsort not in ['licensePlate', 'type', 'brand', 'log']:
+    if Selectsort not in ['licensePlate', 'type', 'brand']:
         Selectsort = 'licensePlate'
     if keyword :
         vehicles = Vehicle.objects.filter(code__icontains=keyword) | Vehicle.objects.filter(name__icontains=keyword) 
