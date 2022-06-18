@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Tên : {{ vehicle.licensePlate | default:'World'}}</h1>
+    <table class="table table-striped table-hover">
+        <thred>
+            <th>Type</th>
+            <th>Brand</th>
+            <th>ParkingLog</th>
+            <th></th>
+        </thred>
+        <body>
+            <tr> 
+                <td>{{vehicle.type}}</td>
+                <td>{{vehicle.brand}}</td>
+                <td><a href= "{{vehicle.getLog}}"> Check </a></td>
+                <td>
+                    <a href="{% url 'delete' vehicle.id%}" class="btn btn-danger"> Delete </a>
+                    <a href="/parkingmanage" class="btn btn-primary"> Cancel </a>
+                </td>
+            </tr>
+        </body>
+    </table>
+{% endblock %}
