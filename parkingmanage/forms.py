@@ -3,6 +3,18 @@ from parkingmanage.models import User, Vehicle
 
 
 class UserForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     users = User.objects.all()
+    #     vehicles = Vehicle.objects.all()
+    #     _delete = []
+
+    #     for _user in users:
+    #         _delete.append(_user.vehicle)
+    #     vehicles.filter(licensePlate__in=_delete).delete()
+
+    #     self.fields['vehicle'].queryset = vehicles   
+
     code = forms.CharField(
         label='code',
         widget=forms.TextInput(
@@ -26,13 +38,16 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Số điện thoại nguời gửi xe'
+                'placeholder': 'Số điện thoại'
             }
         )
     )
     email = forms.EmailField(
         widget=forms.EmailInput(
-            attrs={'class': 'form-control'}
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'example : abc123@gmail.com'
+            }
         )
     )
     address = forms.CharField(
@@ -45,6 +60,7 @@ class UserForm(forms.ModelForm):
             }
         )
     )
+
     class Meta:
         model = User
         fields = [
@@ -53,71 +69,77 @@ class UserForm(forms.ModelForm):
             'phone',
             'email',
             'address',
-            'vehicle',] 
+            ] 
+
     def clean_code(self, *args, **kwargs):
         new_code = self.cleaned_data.get('code')
         if not new_code.isnumeric():
             raise forms.ValidationError('The code should be digit only!')
         return new_code
 
+class VehicleForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     users = User.objects.all()
+    #     vehicles = Vehicle.objects.all()
+    #     _delete = []
 
-# class VehicleForm(forms.ModelForm):
-#     code = forms.CharField(
-#         label='code',
-#         widget=forms.TextInput(
-#             attrs={
-#                 'class': 'form-control',
-#                 'placeholder': 'code'
-#             }
-#         )
-#     )
-#     name = forms.CharField(
-#         required=True,
-#         widget=forms.TextInput(
-#             attrs={
-#                 'class': 'form-control',
-#                 'placeholder': 'Tên vật dụng'
-#             }
-#         )
-#     )
-#     origin = forms.CharField(
-#         required=False,
-#         widget=forms.TextInput(
-#             attrs={
-#                 'class': 'form-control',
-#                 'placeholder': 'Nơi xuất xứ'
-#             }
-#         )
-#     )
-#     status = forms.CharField(
-#         required=False,
-#         widget=forms.TextInput(
-#             attrs={
-#                 'class': 'form-control',
-#                 'placeholder': 'Tình trạng'
-#             }
-#         )
-#     )
-#     amount = forms.IntegerField(
-#         required=False,
-#         widget=forms.TextInput(
-#             attrs={
-#                 'class': 'form-control',
-#                 'placeholder': 'Số lượng'
-#             }
-#         )
-#     )
-#     class Meta:
-#         model = Vehicle
-#         fields = [
-#             'code',
-#             'name',
-#             'origin',
-#             'status',
-#             'amount',
-#             'catogery',] 
-#     def clean_code(self, *args, **kwargs):
-#         new_code = self.cleaned_data.get('code')
-#         if not new_code.isnumeric():
-#             raise forms.ValidationError('The code should be digit only!')
-#         return new_code
+    #     for _user in users:
+    #         _delete.append(_user.vehicle)
+    #     vehicles.filter(licensePlate__in=_delete).delete()
+
+    #     self.fields['vehicle'].queryset = vehicles   
+
+    licensePlate = forms.CharField(
+        label='licensePlate',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'licensePlate'
+            }
+        )
+    )
+    color = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Màu xe'
+            }
+        )
+    )
+    type = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Loại xe'
+            }
+        )
+    )
+    brand = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Thương hiệu xe'
+            }
+        )
+    )
+
+    class Meta:
+        model = Vehicle
+        fields = [
+            'licensePlate',
+            'color',
+            'type',
+            'brand',
+            'user'
+            ] 
+
+    # def clean_code(self, *args, **kwargs):
+    #     new_code = self.cleaned_data.get('licensePlate')
+    #     if not new_code.isnumeric():
+    #         raise forms.ValidationError('The code should be digit only!')
+    #     return new_code

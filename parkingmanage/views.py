@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from parkingmanage.forms import UserForm
+from parkingmanage.forms import UserForm, VehicleForm
 from parkingmanage.models import ParkingLog, User, Vehicle
 
 
@@ -32,7 +32,8 @@ def delete_view(request, id):
 
 def detail_view(request, id):
     user = get_object_or_404(User, id=id)
-    context = {'user': user}
+    vehicles = Vehicle.objects.all()
+    context = {'user': user,'vehicles' : vehicles}
     return render(request, 'detail.html', context)
 
 def list_view(request):
@@ -44,23 +45,64 @@ def list_view(request):
         users = User.objects.filter(code__icontains=keyword) | User.objects.filter(name__icontains=keyword) 
     else :
         users = User.objects.all()
+
+    vehicles = Vehicle.objects.all()
     context = {
         'keyword': keyword,
-        'users' :users.order_by(Selectsort)    
+        'users' :users.order_by(Selectsort),
+        'vehicles' : vehicles
         }
     return render(request,"list.html",context)   
+    
+def view_vehicle(request, id):
+    vehicles = Vehicle.objects.all()
+
+    _delete = []
+    for _vehicle in vehicles :
+        if _vehicle.user.id == id :
+            _delete.append(_vehicle.licensePlate)
+    _vehicles = vehicles.filter(licensePlate__in=_delete)
+    
+    context = {'vehicles': _vehicles}
+    return render(request, 'vehicleview.html', context)
 
 # Vehicle View
 
-def detail_view_vehicle(request, licensePlate):
-    vehicle = get_object_or_404(Vehicle, licensePlate=licensePlate)
+def create_view_vehicle(request):
+    form = VehicleForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = VehicleForm()
+    context = {'form': form}
+    return render(request, 'vehiclecreate.html', context)
+
+def update_view_vehicle(request, id):
+    vehicle = get_object_or_404(Vehicle, id=id)
+    form = VehicleForm(request.POST or None, instance = vehicle )
+    if form.is_valid():
+        form.save()
+        return redirect('/parkingmanage/vehicle')
+    context = {'form': form}
+    return render(request, 'vehiclecreate.html', context)
+
+def detail_view_vehicle(request, id):
+
+    # user = get_object_or_404(User, id=id)
+    # vehicles = Vehicle.objects.all()
+    # context = {'user': user,'vehicles' : vehicles}
+    # return render(request, 'detail.html', context)
+
+
+    vehicle = get_object_or_404(Vehicle, id=id)
     context = {'vehicle': vehicle}
     return render(request, 'vehicledetail.html', context)
+
+
 
 def list_view_vehicle(request):
     keyword = request.GET.get('keyword')
     Selectsort = request.GET.get('selectsort')
-    if Selectsort not in ['licensePlate', 'type', 'brand', 'log']:
+    if Selectsort not in ['licensePlate', 'type', 'brand']:
         Selectsort = 'licensePlate'
     if keyword :
         vehicles = Vehicle.objects.filter(code__icontains=keyword) | Vehicle.objects.filter(name__icontains=keyword) 
@@ -89,3 +131,15 @@ def list_view_log(request):
         'logs' :logs.order_by(Selectsort)    
         }
     return render(request,"loglist.html",context)   
+
+def view_log(request, id):
+    logs = ParkingLog.objects.all()
+
+    _delete = []
+    for _log in logs :
+        if _log.vehicle.id == id :
+            _delete.append(_log.logId)
+    _logs = logs.filter(logId__in=_delete)
+    
+    context = {'logs': _logs}
+    return render(request, 'logview.html', context)
