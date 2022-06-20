@@ -156,10 +156,10 @@ class LogForm(forms.ModelForm):
             'timeIn',
             'timeOut',
             'vehicle'
-            ] 
+            ]  
         widgets = {
-            'timeIn': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'timeOut': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'timeIn': forms.DateTimeInput(),
+            'timeOut': forms.DateTimeInput(),
         }
 
     
