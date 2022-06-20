@@ -1,31 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <h1> License Plate : {{logs.0.vehicle.licensePlate}} - Owner : {{logs.0.vehicle.user.name}} </h1>
     {% for log in logs %}
-    <h1> License Plate : {{ log.id | default:'None'}}</h1>
     <table class="table table-striped table-hover">
         <thred>
-            <th>Color</th>
-            <th>Type</th>
-            <th>Brand</th>
-            <th>ParkingLog</th>
+            <th>Log ID</th>
+            <th>Time In</th>
+            <th>Time out</th>
             <th></th>
         </thred>
         <body>
             <tr> 
                 <td>{{log.logId}}</td>
                 <td>{{log.timeIn}}</td>
-                <td>{{log.timeOut}}
+                <td>{{log.timeOut}}</td>
                 <!-- {% for vehicle in vehicles %}
                 {% if vehicle.user.code == user.code %}
                     {{ vehicle.licensePlate | default:'-'}}
                 {% endif %}
                 {% endfor %} -->
-                </td>
-                <td><a href= "{{vehicle.getLog}}"> Check </a></td>
+                
                 <td>
                     <a href="{% url 'delete' user.id%}" class="btn btn-danger"> Delete </a>
-                    <a href="/parkingmanage" class="btn btn-primary"> Cancel </a>
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary"> Cancel </a>
                 </td>
             </tr>
         </body>

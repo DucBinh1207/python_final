@@ -17,10 +17,10 @@
                 <td>{{user.phone}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.address}}</td>
-                <td><a href= "{{user.getVehicle}}"> View </a></td>
+                <td><a href= "{% url 'view_vehicle' user.id%}"> View </a></td>
                 <td>
                     <a href="{% url 'delete' user.id%}" class="btn btn-danger"> Delete </a>
-                    <a href="/parkingmanage" class="btn btn-primary"> Cancel </a>
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary"> Cancel </a>
                 </td>
             </tr>
         </body>

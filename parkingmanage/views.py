@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from parkingmanage.forms import UserForm, VehicleForm
+from parkingmanage.forms import LogForm, UserForm, VehicleForm
 from parkingmanage.models import ParkingLog, User, Vehicle
 
 
@@ -66,7 +66,7 @@ def view_vehicle(request, id):
     context = {'vehicles': _vehicles}
     return render(request, 'vehicleview.html', context)
 
-# Vehicle View
+# Vehicle
 
 def create_view_vehicle(request):
     form = VehicleForm(request.POST or None)
@@ -86,26 +86,25 @@ def update_view_vehicle(request, id):
     return render(request, 'vehiclecreate.html', context)
 
 def detail_view_vehicle(request, id):
-
-    # user = get_object_or_404(User, id=id)
-    # vehicles = Vehicle.objects.all()
-    # context = {'user': user,'vehicles' : vehicles}
-    # return render(request, 'detail.html', context)
-
-
     vehicle = get_object_or_404(Vehicle, id=id)
     context = {'vehicle': vehicle}
     return render(request, 'vehicledetail.html', context)
 
-
+def delete_view_vehicle(request, id):
+    vehicle = get_object_or_404(Vehicle, id=id)
+    if request.method == 'POST':
+        vehicle.delete()
+        return redirect('/parkingmanage/vehicle')
+    context = {'vehicle': vehicle}
+    return render(request, 'vehicledelete.html', context)
 
 def list_view_vehicle(request):
     keyword = request.GET.get('keyword')
     Selectsort = request.GET.get('selectsort')
-    if Selectsort not in ['licensePlate', 'type', 'brand']:
+    if Selectsort not in ['licensePlate','color' , 'type', 'brand']:
         Selectsort = 'licensePlate'
     if keyword :
-        vehicles = Vehicle.objects.filter(code__icontains=keyword) | Vehicle.objects.filter(name__icontains=keyword) 
+        vehicles = Vehicle.objects.filter(licensePlate__icontains=keyword)| Vehicle.objects.filter(color__icontains=keyword ) | Vehicle.objects.filter(type__icontains=keyword ) | Vehicle.objects.filter(brand__icontains=keyword)
     else :
         vehicles = Vehicle.objects.all()
     context = {
@@ -113,24 +112,6 @@ def list_view_vehicle(request):
         'vehicles' :vehicles.order_by(Selectsort)    
         }
     return render(request,"vehiclelist.html",context)   
-
-# Log View
-
-
-def list_view_log(request):
-    keyword = request.GET.get('keyword')
-    Selectsort = request.GET.get('selectsort')
-    if Selectsort not in ['logId', 'timeIn', 'timeOut']:
-        Selectsort = 'logId'
-    if keyword :
-        logs = ParkingLog.objects.filter(code__icontains=keyword) | ParkingLog.objects.filter(name__icontains=keyword) 
-    else :
-        logs = ParkingLog.objects.all()
-    context = {
-        'keyword': keyword,
-        'logs' :logs.order_by(Selectsort)    
-        }
-    return render(request,"loglist.html",context)   
 
 def view_log(request, id):
     logs = ParkingLog.objects.all()
@@ -143,3 +124,46 @@ def view_log(request, id):
     
     context = {'logs': _logs}
     return render(request, 'logview.html', context)
+
+
+# Log View
+
+def create_view_log(request):
+    form = LogForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = LogForm()
+    context = {'form': form}
+    return render(request, 'logcreate.html', context)
+
+def update_view_log(request, id):
+    log = get_object_or_404(ParkingLog, id=id)
+    form = LogForm(request.POST or None, instance = log )
+    if form.is_valid():
+        form.save()
+        return redirect('/parkingmanage/parkinglog')
+    context = {'form': form}
+    return render(request, 'logupdate.html', context)
+
+def delete_view_log(request, id):
+    log = get_object_or_404(ParkingLog, id=id)
+    if request.method == 'POST':
+        log.delete()
+        return redirect('/parkingmanage/parkinglog')
+    context = {'log': log}
+    return render(request, 'logdelete.html', context)
+
+def list_view_log(request):
+    keyword = request.GET.get('keyword')
+    Selectsort = request.GET.get('selectsort')
+    if Selectsort not in ['logId', 'vehicle']:
+        Selectsort = 'logId'
+    if keyword :
+        logs = ParkingLog.objects.filter(logId__icontains=keyword) | ParkingLog.objects.filter(vehicle__icontains=keyword)
+    else :
+        logs = ParkingLog.objects.all()
+    context = {
+        'keyword': keyword,
+        'logs' :logs.order_by(Selectsort)    
+        }
+    return render(request,"loglist.html",context)   

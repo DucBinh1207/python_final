@@ -11,9 +11,10 @@
         <div class="col-auto"> 
             <select name="selectsort">
                 <option value="" selected disabled hidden>Choose here</option>
-                <option value="licensePlate">licensePlate</option>
-                <option value="type">type</option>
-                <option value="brand">brand</option>
+                <option value="licensePlate">License Plate</option>
+                <option value="color">Color</option>
+                <option value="type">Type</option>
+                <option value="brand">Brand</option>
             </select>
         </div>
         <div class="col-auto"> 
@@ -30,7 +31,7 @@
         <th>Type</th>
         <th>Brand</th>
         <th>Log</th>
-        <th> <a href="/parkingmanage/create" class="btn btn-success"> Add </a> </th>
+        <th> <a href="/parkingmanage/vehicle/create" class="btn btn-success"> Add </a> </th>
     </thred>
     <body>
         {% for vehicle in vehicles %}
@@ -39,10 +40,10 @@
             <td>{{vehicle.color}}</td>
             <td>{{vehicle.type}}</td>
             <td>{{vehicle.brand}}</td>
-            <td> <a href= "{% url 'view_log' vehicle.id%}}">  View  </a> </td>
+            <td> <a href= "{% url 'view_log' vehicle.id %}">  View  </a> </td>
             <td>
-                <a href="{% url 'update' vehicle.id%}" class="btn btn-primary"> Update </a>
-                <a href="{% url 'delete' vehicle.id%}" class="btn btn-danger"> Delete </a>
+                <a href="{% url 'update_vehicle' vehicle.id%}" class="btn btn-primary"> Update </a>
+                <a href="{% url 'delete_vehicle' vehicle.id%}" class="btn btn-danger"> Delete </a>
             </td>
         </tr>
         {% endfor %}
