@@ -45,10 +45,10 @@ class ParkingLog(models.Model):
         return f"{self.logId}"
 
 
-# class Manager(models.Model):
-#     code = models.TextField(max_length=10)
-#     username = models.TextField(max_length=255)
-#     password = models.TextField(max_length=255)
-#     role = models.TextField(max_length=255) #administrator quanly
-#     phone = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
-#     email = models.EmailField()
+class Manager(models.Model):
+    code = models.TextField(max_length=10)
+    username = models.TextField(max_length=255)
+    password = models.TextField(max_length=255)
+    role = models.TextField(max_length=255) #administrator quanly
+    phone = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
+    email = models.EmailField()
