@@ -1,3 +1,4 @@
+from turtle import color
 from django import forms
 from parkingmanage.models import ParkingLog, User, Vehicle
 
@@ -18,7 +19,7 @@ class UserForm(forms.ModelForm):
     #     self.fields['vehicle'].queryset = vehicles   
 
     code = forms.CharField(
-        label='code',
+        label='Code',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -40,7 +41,7 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Số điện thoại'
+                'placeholder': 'Số điện thoại',
             }
         )
     )
