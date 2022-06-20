@@ -22,10 +22,10 @@
                 {% endif %}
                 {% endfor %} -->
                 </td>
-                <td><a href= "{{vehicle.getLog}}"> Check </a></td>
+                <td><a href= "{% url 'view_log' vehicle.id %}"> View </a></td>
                 <td>
-                    <a href="{% url 'delete' user.id%}" class="btn btn-outline-danger"> Delete </a>
-                    <a href="/parkingmanage" class="btn btn-outline-primary"> Cancel </a>
+                    <a href="{% url 'delete' user.id%}" class="btn btn-danger"> Delete </a>
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary"> Cancel </a>
                 </td>
             </tr>
         </body>

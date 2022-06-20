@@ -1,7 +1,9 @@
 from turtle import color
 from django import forms
-from parkingmanage.models import User, Vehicle
+from parkingmanage.models import ParkingLog, User, Vehicle
 
+
+#############################  USER   ############################
 
 class UserForm(forms.ModelForm):
     # def __init__(self, *args, **kwargs):
@@ -30,7 +32,7 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Tên nguời gửi xe'
+                'placeholder': 'Tên người gửi xe'
             }
         )
     )
@@ -78,26 +80,18 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError('The code should be digit only!')
         return new_code
 
+#############################  VEHICLE   ############################
+
+
 class VehicleForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     users = User.objects.all()
-    #     vehicles = Vehicle.objects.all()
-    #     _delete = []
-
-    #     for _user in users:
-    #         _delete.append(_user.vehicle)
-    #     vehicles.filter(licensePlate__in=_delete).delete()
-
-    #     self.fields['vehicle'].queryset = vehicles   
 
     licensePlate = forms.CharField(
-        label='licensePlate',
+        label='License Plate',
         required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'licensePlate'
+                'placeholder': 'Biển số xe'
             }
         )
     )
@@ -139,8 +133,34 @@ class VehicleForm(forms.ModelForm):
             'user'
             ] 
 
-    # def clean_code(self, *args, **kwargs):
-    #     new_code = self.cleaned_data.get('licensePlate')
-    #     if not new_code.isnumeric():
-    #         raise forms.ValidationError('The code should be digit only!')
-    #     return new_code
+
+#############################  PARKING LOG   ############################
+
+
+class LogForm(forms.ModelForm):
+
+    logId = forms.CharField(
+        label='Log ID',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Mã Log'
+            }
+        )
+    )
+
+    class Meta:
+        model = ParkingLog
+        fields = [
+            'logId',
+            'timeIn',
+            'timeOut',
+            'vehicle'
+            ]  
+        widgets = {
+            'timeIn': forms.DateTimeInput(),
+            'timeOut': forms.DateTimeInput(),
+        }
+
+    

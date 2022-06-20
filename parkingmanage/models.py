@@ -12,7 +12,7 @@ class User(models.Model):
     address = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.code} - {self.name} "
+        return f"{self.code} - {self.name}"
 
     def get_absolute_url(self) : 
         return reverse('detail' ,kwargs = {"id" : self.id})
@@ -25,9 +25,9 @@ class Vehicle(models.Model):
     user = models.ForeignKey(User,
                             on_delete=models.CASCADE,
                             blank=True,
-                            null=True)
+                            null=False)
     def __str__(self):
-        return f"{self.licensePlate}"
+        return f"{self.licensePlate}" 
 
     def get_absolute_url(self) : 
         return reverse('detail_vehicle' ,kwargs = {"id" : self.id})
