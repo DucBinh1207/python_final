@@ -1,6 +1,9 @@
+from turtle import color
 from django import forms
-from parkingmanage.models import User, Vehicle
+from parkingmanage.models import ParkingLog, User, Vehicle
 
+
+#############################  USER   ############################
 
 class UserForm(forms.ModelForm):
     # def __init__(self, *args, **kwargs):
@@ -16,7 +19,7 @@ class UserForm(forms.ModelForm):
     #     self.fields['vehicle'].queryset = vehicles   
 
     code = forms.CharField(
-        label='code',
+        label='Code',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -29,7 +32,7 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Tên nguời gửi xe'
+                'placeholder': 'Tên người gửi xe'
             }
         )
     )
@@ -38,7 +41,7 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Số điện thoại'
+                'placeholder': 'Số điện thoại',
             }
         )
     )
@@ -76,3 +79,88 @@ class UserForm(forms.ModelForm):
         if not new_code.isnumeric():
             raise forms.ValidationError('The code should be digit only!')
         return new_code
+
+#############################  VEHICLE   ############################
+
+
+class VehicleForm(forms.ModelForm):
+
+    licensePlate = forms.CharField(
+        label='License Plate',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Biển số xe'
+            }
+        )
+    )
+    color = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Màu xe'
+            }
+        )
+    )
+    type = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Loại xe'
+            }
+        )
+    )
+    brand = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Thương hiệu xe'
+            }
+        )
+    )
+
+    class Meta:
+        model = Vehicle
+        fields = [
+            'licensePlate',
+            'color',
+            'type',
+            'brand',
+            'user'
+            ] 
+
+
+#############################  PARKING LOG   ############################
+
+
+class LogForm(forms.ModelForm):
+
+    logId = forms.CharField(
+        label='Log ID',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Mã Log'
+            }
+        )
+    )
+
+    class Meta:
+        model = ParkingLog
+        fields = [
+            'logId',
+            'timeIn',
+            'timeOut',
+            'vehicle'
+            ]  
+        widgets = {
+            'timeIn': forms.DateTimeInput(),
+            'timeOut': forms.DateTimeInput(),
+        }
+
+    

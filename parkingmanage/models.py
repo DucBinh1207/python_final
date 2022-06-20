@@ -12,27 +12,25 @@ class User(models.Model):
     address = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.code}"
+        return f"{self.code} - {self.name}"
 
     def get_absolute_url(self) : 
         return reverse('detail' ,kwargs = {"id" : self.id})
 
-    def getVehicle(self) :
-        return reverse('detail_vehicle' ,kwargs = {"licensePlate" : self.vehicle})
-
 class Vehicle(models.Model):
     licensePlate = models.TextField(max_length=10)
+    color = models.TextField(max_length=255, null=True)
     type = models.TextField(max_length=255, null=True)
     brand = models.TextField(max_length=255, null=True)
     user = models.ForeignKey(User,
                             on_delete=models.CASCADE,
                             blank=True,
-                            null=True)
+                            null=False)
     def __str__(self):
-        return f"{self.licensePlate}"
+        return f"{self.licensePlate}" 
 
-    def getLog(self):
-        return reverse('list_log')
+    def get_absolute_url(self) : 
+        return reverse('detail_vehicle' ,kwargs = {"id" : self.id})
 
 class ParkingLog(models.Model):
     logId = models.TextField(max_length=10)

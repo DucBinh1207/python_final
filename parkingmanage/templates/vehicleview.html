@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% for vehicle in vehicles %}
     <h1> License Plate : {{ vehicle.licensePlate | default:'None'}}</h1>
     <table class="table table-striped table-hover; table-warning">
         <thred>
-            <th>Owner</th>
             <th>Color</th>
             <th>Type</th>
             <th>Brand</th>
@@ -13,7 +13,6 @@
         </thred>
         <body>
             <tr> 
-                <td> <a href= "{{vehicle.user.get_absolute_url}}" >{{vehicle.user.name}}</a></td>
                 <td>{{vehicle.color}}</td>
                 <td>{{vehicle.type}}</td>
                 <td>{{vehicle.brand}}
@@ -23,7 +22,7 @@
                 {% endif %}
                 {% endfor %} -->
                 </td>
-                <td><a href= "{% url 'view_log' vehicle.id%}"> View </a></td>
+                <td><a href= "{% url 'view_log' vehicle.id %}"> View </a></td>
                 <td>
                     <a href="{% url 'delete' user.id%}" class="btn btn-danger"> Delete </a>
                     <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary"> Cancel </a>
@@ -31,4 +30,5 @@
             </tr>
         </body>
     </table>
+    {% endfor %}
 {% endblock %}
