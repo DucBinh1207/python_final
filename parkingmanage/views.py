@@ -1,9 +1,12 @@
+from django.contrib import admin
 from django.shortcuts import get_object_or_404, redirect, render
 from parkingmanage.forms import LogForm, UserForm, VehicleForm, ManagerForm
 from parkingmanage.models import ParkingLog, User, Vehicle, Manager
 
 # Login-Logout Views
 def login_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -342,12 +345,21 @@ def manage_view(request):
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
         mode = 'block'
-    
-    managers = Manager.objects.all()
+
+    keyword = request.GET.get('keyword')
+    Selectsort = request.GET.get('selectsort')
+    if Selectsort not in ['name', 'role']:
+        Selectsort = 'role'
+    if keyword :
+        managers = Manager.objects.filter(role__icontains=keyword) | Manager.objects.filter(name__icontains=keyword)
+    else :
+        managers = Manager.objects.all()
+
     context = {
         'usertype': usertype,
         'mode': mode,
-        'managers': managers,
+        'keyword': keyword,
+        'managers' :managers.order_by(Selectsort)  
     }
     return render(request, 'managelist.html', context)
 
@@ -361,7 +373,7 @@ def create_view_manager(request):
     if usertype == 'Administrator' or usertype == 'Manager':
         mode = 'block'
 
-    form = ManagerForm(request.POST or None)
+    form = ManagerForm(request.POST or None, role=usertype)
     if form.is_valid():
         form.save()
         return redirect('/parkingmanage/manager')
@@ -382,7 +394,7 @@ def update_view_manager(request, id):
         mode = 'block'
 
     manager = get_object_or_404(Manager, id=id)
-    form = ManagerForm(request.POST or None, instance = manager )
+    form = ManagerForm(request.POST or None, instance = manager, role=usertype)
     if form.is_valid():
         form.save()
         return redirect('/parkingmanage/manager')

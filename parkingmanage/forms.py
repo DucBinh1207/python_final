@@ -182,10 +182,7 @@ class ManagerForm(forms.ModelForm):
     role = forms.ChoiceField(
         label='Quyền hạn',
         required=True,
-        choices=(
-            ('Manager', 'Manager'),
-            ('Staff', 'Staff'),
-        ),
+        
     )
 
     username = forms.CharField(
@@ -263,6 +260,20 @@ class ManagerForm(forms.ModelForm):
             'phone',
             'email',
             ] 
+
+    def __init__(self, *args, **kwargs):
+        self.usertype = kwargs.pop('role', None)
+        super(ManagerForm, self).__init__(*args, **kwargs)
+        print(self.usertype)
+        if self.usertype == 'Manager':
+            self.fields['role'].choices = (
+                ('Staff', 'Staff'),
+            )
+        elif self.usertype == 'Administrator':
+            self.fields['role'].choices = (
+                ('Manager', 'Manager'),
+                ('Staff', 'Staff'),
+            )
 
     def clean_email(self, *args, **kwargs):
         email = self.cleaned_data.get('email')
