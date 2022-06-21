@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import login_view, create_view_log, create_view_vehicle, delete_view, delete_view_log, delete_view_vehicle, detail_view, create_view, detail_view_vehicle, list_view, list_view_log, list_view_vehicle, update_view, update_view_log, update_view_vehicle, view_log, view_vehicle
+from .views import login_view, logout_view, create_view_log, create_view_vehicle, delete_view, delete_view_log, delete_view_vehicle, detail_view, create_view, detail_view_vehicle, list_view, list_view_log, list_view_vehicle, update_view, update_view_log, update_view_vehicle, view_log, view_vehicle, manage_view, create_view_manager, update_view_manager, delete_view_manager, detail_view_manager
 
 urlpatterns = [
     path('login', login_view ,name ="login"),
+    path('logout', logout_view ,name ="logout"),
     path('', list_view ,name ="list"),
     path('create', create_view, name='create'),
     path('<int:id>', detail_view, name='detail'),
@@ -19,5 +20,9 @@ urlpatterns = [
     path('parkinglog/create', create_view_log, name='create_log'),
     path('parkinglog/<int:id>/update', update_view_log, name='update_log'),
     path('parkinglog/<int:id>/delete', delete_view_log, name='delete_log'),
-    
+    path('manager', manage_view, name='manager'),
+    path('manager/create', create_view_manager, name='create_manager'),
+    path('manager/<int:id>/update', update_view_manager, name='update_manager'),
+    path('manager/<int:id>/delete', delete_view_manager, name='delete_manager'),
+    path('manager/<int:id>', detail_view_manager, name='detail_manager'),
 ]

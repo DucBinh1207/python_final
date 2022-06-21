@@ -1,6 +1,6 @@
 from turtle import color
 from django import forms
-from parkingmanage.models import ParkingLog, User, Vehicle
+from parkingmanage.models import ParkingLog, User, Vehicle, Manager
 
 
 #############################  USER   ############################
@@ -162,5 +162,112 @@ class LogForm(forms.ModelForm):
             'timeIn': forms.DateTimeInput(),
             'timeOut': forms.DateTimeInput(),
         }
+
+    
+#############################  Manager  ############################
+
+class ManagerForm(forms.ModelForm):
+
+    code = forms.CharField(
+        label='Mã nhân viên',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Mã nhân viên'
+            }
+        )
+    )
+
+    role = forms.ChoiceField(
+        label='Quyền hạn',
+        required=True,
+        choices=(
+            ('Manager', 'Manager'),
+            ('Staff', 'Staff'),
+        ),
+    )
+
+    username = forms.CharField(
+        label='Tên tài khoản',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Tên tài khoản'
+            }
+        )
+    )
+
+    password = forms.CharField(
+        label='Mật khẩu',
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Mật khẩu'
+            }
+        )
+    )
+
+    name = forms.CharField(
+        label='Tên nhân viên',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Tên nhân viên'
+            }
+        )
+    )
+
+    address = forms.CharField(
+        label='Địa chỉ',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Địa chỉ'
+            }
+        )
+    )
+
+    phone = forms.CharField(
+        label='Phone',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Số điện thoại'
+            }
+        )
+    )
+
+    email = forms.EmailField(
+        label='Email',
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Email'
+            }
+        )
+    )
+
+    class Meta:
+        model = Manager
+        fields = [
+            'code',
+            'username',
+            'password',
+            'role',
+            'name',
+            'address',
+            'phone',
+            'email',
+            ] 
+
+    def clean_email(self, *args, **kwargs):
+        email = self.cleaned_data.get('email')
+        if not email.endswith('@gmail.com'):
+            raise forms.ValidationError('Email không hợp lệ')
+        return email
 
     
