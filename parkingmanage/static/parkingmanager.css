@@ -1,0 +1,53 @@
+.container{
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  color: rgba(0, 0, 0, 0.703);
+}
+
+.block-garage{
+  display: flex;
+}
+
+.block-garage__item{
+  width: 25%;
+  height: 300px;
+  border: 1px solid black;
+  cursor: pointer;
+
+}
+
+.license-plates{
+  border: 1px solid black;
+  text-align: center;
+}
+
+.block-garage__active{
+  background-color: bisque;
+}
+
+
+.information{
+  display: flex;
+  min-height: 300px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.information-block:first-child{
+  border-right: 1px solid black;
+}
+
+.information-block{
+  width: 50%;
+  padding: 15px;
+}
+
+.information-item{
+  display: flex;
+  flex-wrap: wrap;
+}
+.information-item .label{
+  width: 300px;
+  text-align: start;
+}

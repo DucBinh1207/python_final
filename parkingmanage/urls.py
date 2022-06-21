@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import login_view, logout_view, create_view_log, \
                     create_view_vehicle, delete_view, delete_view_log, \
                     delete_view_vehicle, detail_view, create_view, \
@@ -6,9 +7,10 @@ from .views import login_view, logout_view, create_view_log, \
                     list_view_vehicle, update_view, update_view_log, \
                     update_view_vehicle, view_log, view_vehicle, \
                     manage_view, create_view_manager, update_view_manager, \
-                    delete_view_manager, detail_view_manager
+                    delete_view_manager, detail_view_manager, parking_view
 
 urlpatterns = [
+    path('parkingmanager', parking_view,name ="parking_view"),
     path('login', login_view ,name ="login"),
     path('logout', logout_view ,name ="logout"),
     path('', list_view ,name ="list"),

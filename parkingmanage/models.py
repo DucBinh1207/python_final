@@ -3,6 +3,7 @@ from tkinter import N
 from django.db import models
 from django.urls import reverse
 from django.core.validators import RegexValidator
+from sympy import true
 
 # Create your models here.
 class User(models.Model):
@@ -11,6 +12,7 @@ class User(models.Model):
     phone = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,10}$')], null=True)
     email = models.EmailField(blank=False, null=True)
     address = models.TextField(blank=True, null=True)
+    # avatar = models.ImageField(upload_to="images/",null=True)
 
     def __str__(self):
         return f"{self.code} - {self.name}"
@@ -25,7 +27,7 @@ class Vehicle(models.Model):
     brand = models.TextField(max_length=255, null=True)
     user = models.ForeignKey(User,
                             on_delete=models.CASCADE,
-                            blank=True,
+                            blank=False,
                             null=False)
     def __str__(self):
         return f"{self.licensePlate}" 
@@ -39,8 +41,8 @@ class ParkingLog(models.Model):
     timeOut = models.DateTimeField(null=True)
     vehicle = models.ForeignKey(Vehicle, 
                             on_delete=models.CASCADE,
-                            blank=True,
-                            null=True)    
+                            blank=False,
+                            null=False)    
 
     def __str__(self):
         return f"{self.logId}"

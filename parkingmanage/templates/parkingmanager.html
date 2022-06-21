@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'parkingmanager.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="block-garage">
+        <div class="block-garage__item block-garage__active"></div>
+        <div class="block-garage__item"></div>
+        <div class="block-garage__item block-garage__active"></div>
+        <div class="block-garage__item"></div>
+      </div>
+      <div class="license-plates">
+        <h1>License plates: 38H1-559966</h1>
+      </div>
+      <div class="information">
+        <div class="information-block">
+          <div class="information-item">
+            <h3 class="label">OWNER </h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Code :</h3>
+            <h3 class="content">XXXXXX</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Name:</h3>
+            <h3 class="content">Tran Duc Binh</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Phone :</h3>
+            <h3 class="content">XXXX</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Email:</h3>
+            <h3 class="content">XXXX</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Address:</h3>
+            <h3 class="content">XXXX</h3>
+          </div>
+        </div>
+
+        <div class="information-block">
+          <div class="information-item">
+            <h3 class="label">VEHICLE</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">License Plate:</h3>
+            <h3 class="content">YYYYYY</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Color:</h3>
+            <h3 class="content">YYYYYY</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Type:</h3>
+            <h3 class="content">YYYYYY</h3>
+          </div>
+          <div class="information-item">
+            <h3 class="label">Brand:</h3>
+            <h3 class="content">YYYYYY</h3>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}

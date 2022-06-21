@@ -43,9 +43,13 @@ def create_view(request):
     if form.is_valid():
         form.save()
         form = UserForm()
+        alert = True
+    else : 
+        alert = False
     context = {
         'mode': mode,
-        'form': form
+        'form': form,
+        'alert_flag': alert
     }
     return render(request, 'create.html', context)
 
@@ -67,6 +71,7 @@ def update_view(request, id):
         'form': form
     }
     return render(request, 'create.html', context)
+
 
 def delete_view(request, id):
     mode = 'none'
@@ -140,6 +145,14 @@ def view_vehicle(request, id):
         if _vehicle.user.id == id :
             _delete.append(_vehicle.licensePlate)
     _vehicles = vehicles.filter(licensePlate__in=_delete)
+
+    if (_vehicles.count() == 0):
+        context = {'vehicles': _vehicles, "alert_flag" : True}
+        return render(request, 'vehicleview.html', context)
+    else : 
+        context = {'vehicles': _vehicles, "alert_flag" : False}
+        return render(request, 'vehicleview.html', context)
+    
     
     context = {
         'mode': mode,
@@ -251,12 +264,14 @@ def view_log(request, id):
         if _log.vehicle.id == id :
             _delete.append(_log.logId)
     _logs = logs.filter(logId__in=_delete)
+    if (_logs.count() == 0):
+
+        context = {'mode': mode, 'logs': _logs, "alert_flag" : True}
+        return render(request, 'logview.html', context)
+    else : 
+        context = {'mode': mode, 'logs': _logs,"alert_flag" : False}
+        return render(request, 'logview.html', context)
     
-    context = {
-        'mode': mode,
-        'logs': _logs
-    }
-    return render(request, 'logview.html', context)
 
 
 # Log View
@@ -334,6 +349,10 @@ def list_view_log(request):
         'logs' :logs.order_by(Selectsort)    
         }
     return render(request,"loglist.html",context)   
+
+#Parking Manage
+def parking_view(request):
+    return render(request, 'parkingmanager.html')
 
 # Manage View
 def manage_view(request):
