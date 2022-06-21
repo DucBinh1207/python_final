@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="col-md-12 col-sm-12 col-xs-10">
+    <div class="card mb-3">
+        <div class="card-header text-primary">
+        <i class="fas fa-car-alt text-secondary"></i>
+            Detail Vehicle
+        </div>
+        <div class="card-body">
     <h1>Tên : {{ user.name | default:'World'}}</h1>
     <!-- <img
                     src="{{ user.image.url }}"
@@ -31,4 +38,7 @@
             </tr>
         </body>
     </table>
+</div>
+</div>
+</div>
 {% endblock %}

@@ -70,7 +70,8 @@ def update_view(request, id):
         'mode': mode,
         'form': form
     }
-    return render(request, 'create.html', context)
+    # return render(request, 'create.html', context)
+    return render(request, 'update.html', context)
 
 
 def delete_view(request, id):
