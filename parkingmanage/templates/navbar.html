@@ -1,95 +1,22 @@
-{% comment %} <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/parkingmanage">Parking Management</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/parkingmanage/">   User   </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/parkingmanage/vehicle">   Vehicle   </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/parkingmanage/parkinglog">   Log   </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> {% endcomment %}
-
-
-<nav>
-  <ul class="mcd-menu">
-    <li>
-      <a href="">
-        <i class="fa fa-home"></i>
-        <strong>Home</strong>
-      </a>
+<div id="menu">
+  <ul>
+    <li class="nav-item active">  
+      <img src="https://cdn.vox-cdn.com/thumbor/Cb4sRVV1uCJIeVkjR7Z024rMM-o=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19580683/mercedes_vision_avtr_0478.jpg" class="rounded-circle shadow-4"
+        style="width: 50px ;height: 50px; margin-top: 0px;margin-right: 0px;" alt="Vehicle" />
     </li>
     <li>
-      <a href="" class="active">
-        <i class="fa fa-edit"></i>
-        <strong>User</strong>
-      </a>
+      <div display:inline>
+        <p><img src="https://i.pinimg.com/originals/b3/cc/d5/b3ccd57b054a73af1a0d281265b54ec8.jpg"
+        style="width: 50px ;height: 50px; margin-top: 0px;margin-right: 0px;" alt="Vehicle" />
+        <a href="#">Home</a>
+        </p>
+      </div>
     </li>
-    <li>
-      <a href="">
-        <i class="fa fa-gift"></i>
-        <strong>Vehical</strong>
-      </a>
-    </li>
-    <li>
-      <a href="">
-        <i class="fa fa-globe"></i>
-        <strong>Contact</strong>
-      </a>
-    </li>
-    <li>
-      <a href="">
-        <i class="fa fa-comments-o"></i>
-        <strong>About</strong>
-      </a>
-      <ul>
-        {% comment %} <li><a href="#"><i class="fa fa-globe"></i>Mission</a></li>
-        <li>
-          <a href="#"><i class="fa fa-group"></i>Our Team</a>
-          <ul>
-            <li><a href="#"><i class="fa fa-female"></i>Leyla Sparks</a></li>
-            <li>
-              <a href="#"><i class="fa fa-male"></i>Gleb Ismailov</a>
-            </li>
-            <li><a href="#"><i class="fa fa-female"></i>Viktoria Gibbers</a></li>
-          </ul>
-        </li>
-        <li><a href="#"><i class="fa fa-trophy"></i>Rewards</a></li>
-        <li><a href="#"><i class="fa fa-certificate"></i>Certificates</a></li> {% endcomment %}
-      </ul>  
-    </li>
-    <li style="display: {{ mode }}">
-      <a href="/parkingmanage/manager">
-        <i class="fa fa-envelope-o"></i>
-        <strong>Admin</strong>
-      </a>
-    </li>
-    <li>
-      <a href="/parkingmanage/logout"> 
-        <i class="fa fa-picture-o"></i>
-        <strong>Logout</strong>
-      </a>
-    </li>
+    <li><a href="#">User</a></li>
+    <li><a href="#">Vihecle</a></li>
+    <li style="display: {{ mode }}"><a href="/parkingmanage/manager">Admin</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="/parkingmanage/logout">Logout</a></li>
   </ul>
-</nav>
+</div>

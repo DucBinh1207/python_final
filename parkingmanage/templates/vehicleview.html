@@ -1,39 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if alert_flag %}
-        <script>alert("Không có xe !")</script>
-        <a href="/parkingmanage/vehicle/create" class="btn btn-success"> Add Vehicle </a>  
-        <a href="parkingmanage/vehicle" class="btn btn-primary"> Cancel </a>
-    {% else %}
-        {% for vehicle in vehicles %}
-        <h1> License Plate : {{ vehicle.licensePlate | default:'None'}}</h1>
-        <table class="table table-striped table-hover">
-            <thred>
-                <th>Color</th>
-                <th>Type</th>
-                <th>Brand</th>
-                <th>ParkingLog</th>
-                <th></th>
-            </thred>
-            <body>
-                <tr> 
-                    <td>{{vehicle.color}}</td>
-                    <td>{{vehicle.type}}</td>
-                    <td>{{vehicle.brand}}
-                    <!-- {% for vehicle in vehicles %}
-                    {% if vehicle.user.code == user.code %}
-                        {{ vehicle.licensePlate | default:'-'}}
-                    {% endif %}
-                    {% endfor %} -->
-                    </td>
-                    <td><a href= "{% url 'view_log' vehicle.id %}"> View </a></td>
-                    <td>
-                        <a href="{% url 'delete_vehicle' vehicle.id%}" class="btn btn-danger"> Delete </a>
-                        <a href="/parkingmanage" class="btn btn-primary"> Cancel </a>
-                    </td>
-                </tr>
-            </body>
-        </table>
-        {% endfor %}
-    {% endif %}  
+<div class="col-md-12 col-sm-12 col-xs-10">
+    <div class="card mb-3">
+        <div class="card-header text-primary">
+        <i class="fas fa-car-alt text-secondary"></i>
+            Create Vehicle
+        </div>
+        <div class="card-body">
+            {% if alert_flag %}
+              <script>alert("Không có xe !")</script>
+              <a href="/parkingmanage/vehicle/create" class="btn btn-success"> Add Vehicle </a>  
+              <a href="parkingmanage/vehicle" class="btn btn-primary"> Cancel </a>
+            {% else %}
+            {% for vehicle in vehicles %}
+            <h1> License Plate : {{ vehicle.licensePlate | default:'None'}}</h1>
+            <table class="table table-striped table-hover; table-warning">
+                <thred>
+                    <th>Color</th>
+                    <th>Type</th>
+                    <th>Brand</th>
+                    <th>ParkingLog</th>
+                    <th></th>
+                </thred>
+                <body>
+                    <tr> 
+                        <td>{{vehicle.color}}</td>
+                        <td>{{vehicle.type}}</td>
+                        <td>{{vehicle.brand}}
+                        <!-- {% for vehicle in vehicles %}
+                        {% if vehicle.user.code == user.code %}
+                            {{ vehicle.licensePlate | default:'-'}}
+                        {% endif %}
+                        {% endfor %} -->
+                        </td>
+                        <td><a href= "{% url 'view_log' vehicle.id %}"> View </a></td>
+                        <td>
+                            <a href="{% url 'delete_vehicle' vehicle.id%}" class="btn btn-danger"> Delete </a>
+                            <a href="/parkingmanage" class="btn btn-primary"> Cancel </a>
+                         </td>
+                    </tr>
+                </body>
+            </table>
+            {% endfor %}
+            {% endif %}  
+        </div>
+    </div>
+</div>
 {% endblock %}
