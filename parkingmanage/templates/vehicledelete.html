@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST">{% csrf_token %}
+    <h3>
+        Bạn có muốn xóa chiếc xe có biển số xe : "{{ vehicle.licensePlate}}" thuộc về "{{ vehicle.user.name }}" 
+    </h3>
+    <input class="btn btn-danger" type="submit" value="Yes">
+    <a href="/parkingmanage/vehicle" class="btn btn-primary"> Cancel </a> 
+</form>
+{% endblock %}
