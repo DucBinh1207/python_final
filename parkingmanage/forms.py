@@ -1,7 +1,7 @@
 from distutils.log import Log
 from turtle import color
 from django import forms
-from parkingmanage.models import ParkingLog, User, Vehicle
+from parkingmanage.models import ParkingLog, User, Vehicle, Manager
 
 
 #############################  USER   ############################
@@ -232,5 +232,158 @@ class LogForm(forms.ModelForm):
                 return new_logId
             else :
                 raise forms.ValidationError('The logId already exist!')
+    
+#############################  Manager  ############################
+
+class ManagerForm(forms.ModelForm):
+
+    code = forms.CharField(
+        label='Mã nhân viên',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Mã nhân viên'
+            }
+        )
+    )
+
+    role = forms.ChoiceField(
+        label='Quyền hạn',
+        required=True,
+        
+    )
+
+    username = forms.CharField(
+        label='Tên tài khoản',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Tên tài khoản'
+            }
+        )
+    )
+
+    password = forms.CharField(
+        label='Mật khẩu',
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Mật khẩu'
+            }
+        )
+    )
+
+    name = forms.CharField(
+        label='Tên nhân viên',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Tên nhân viên'
+            }
+        )
+    )
+
+    address = forms.CharField(
+        label='Địa chỉ',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Địa chỉ'
+            }
+        )
+    )
+
+    phone = forms.CharField(
+        label='Phone',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Số điện thoại'
+            }
+        )
+    )
+
+    email = forms.EmailField(
+        label='Email',
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Email'
+            }
+        )
+    )
+
+    class Meta:
+        model = Manager
+        fields = [
+            'code',
+            'username',
+            'password',
+            'role',
+            'name',
+            'address',
+            'phone',
+            'email',
+            ] 
+
+    def __init__(self, *args, **kwargs):
+        self.usertype = kwargs.pop('role', None)
+        super(ManagerForm, self).__init__(*args, **kwargs)
+        if self.usertype == 'Manager':
+            self.fields['role'].choices = (
+                ('Staff', 'Staff'),
+            )
+        elif self.usertype == 'Administrator':
+            self.fields['role'].choices = (
+                ('Manager', 'Manager'),
+                ('Staff', 'Staff'),
+            )
+        if self.instance is not None:
+            self.isUpdate = True
+        else:
+            self.isUpdate = False
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        manager = Manager.objects.filter(code=code)
+        if manager.exists() and not self.isUpdate :
+            raise forms.ValidationError('Mã nhân viên đã tồn tại!')
+        else: 
+            if self.instance.code == code : #user01
+                return code
+            else :
+                raise forms.ValidationError('Mã nhân viên đã tồn tại!')
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        manager = Manager.objects.filter(username=username)
+        if manager.exists() and not self.isUpdate :
+            raise forms.ValidationError('Tên tài khoản đã tồn tại!')
+        else: 
+            if self.instance.username == username : #user01
+                return username
+            else :
+                raise forms.ValidationError('Tên tài khoản đã tồn tại!')
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        manager = Manager.objects.filter(phone=phone)
+        if manager.exists() and not self.isUpdate :
+            raise forms.ValidationError('Số điện thoại đã tồn tại!')
+        else: 
+            if self.instance.phone == phone : #user01
+                return phone
+            else :
+                raise forms.ValidationError('Số điện thoại đã tồn tại!')
+
+    def clean_email(self, *args, **kwargs):
+        email = self.cleaned_data.get('email')
+        if not email.endswith('@gmail.com'):
+            raise forms.ValidationError('Email không hợp lệ')
+        return email
 
     

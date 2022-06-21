@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1> Mã nhân viên : {{ manager.code | default:'NA'}}</h1>
+    <p> Tên nhân viên : {{ manager.name | default:'NA' }}
+    <p> Quyền hạn: {{ manager.role | default:'NA'}}
+    <p> Số điện thoại: {{ manager.phone | default:'NA'}}
+    <p> Địa chỉ: {{ manager.address | default:'NA'}}
+    <p> Email: {{ manager.email | default:'NA'}}
+    <p><a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary"> Cancel </a></ p>
+{% endblock %}

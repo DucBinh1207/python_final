@@ -1,4 +1,5 @@
 # import code
+from tkinter import N
 from django.db import models
 from django.urls import reverse
 from django.core.validators import RegexValidator
@@ -47,10 +48,18 @@ class ParkingLog(models.Model):
         return f"{self.logId}"
 
 
-# class Manager(models.Model):
-#     code = models.TextField(max_length=10)
-#     username = models.TextField(max_length=255)
-#     password = models.TextField(max_length=255)
-#     role = models.TextField(max_length=255) #administrator quanly
-#     phone = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
-#     email = models.EmailField()
+class Manager(models.Model):
+    code = models.TextField(max_length=10)
+    username = models.TextField(max_length=255)
+    password = models.TextField(max_length=255)
+    role = models.TextField(max_length=255) #Administrator - Staff
+    name = models.TextField(max_length=255, null=True)
+    phone = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
+    address = models.TextField(blank=True, null=True)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f"{self.code} - {self.name} - {self.role}"
+
+    def get_absolute_url(self) : 
+        return reverse('detail_manager' ,kwargs = {"id" : self.id})

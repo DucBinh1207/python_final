@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST">{% csrf_token %}
+    <h3>
+        Bạn có muốn xóa tài khoản : "{{ manager.username }}" thuộc về "{{ manager.code }}" 
+    </h3>
+    <input class="btn btn-danger" type="submit" value="Yes">
+    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary"> Cancel </a> 
+</form>
+{% endblock %}
