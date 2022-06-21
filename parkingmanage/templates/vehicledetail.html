@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<center><div class="card-header text-primary">QUẢN LÝ BÃI ĐỖ XE</div></center>
+<br>
 <div class="col-md-12 col-sm-12 col-xs-10">
     <div class="card mb-3">
         <div class="card-header text-primary">
@@ -32,7 +34,7 @@
                         </td>
                         <td><a href= "{% url 'view_log' vehicle.id%}"> View </a></td>
                         <td>
-                            <a href="{% url 'delete' user.id%}" class="btn btn-danger"> Delete </a>
+                            <a href="{% url 'delete_vehicle' vehicle.id%}" class="btn btn-danger"> Delete </a>
                             <a href="/parkingmanage/vehicle" class="btn btn-primary"> Cancel </a>
                         </td>
                     </tr>

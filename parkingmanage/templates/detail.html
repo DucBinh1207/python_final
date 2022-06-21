@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<center><div class="card-header text-primary">QUẢN LÝ BÃI ĐỖ XE</div></center>
+<br>
 <div class="col-md-12 col-sm-12 col-xs-10">
     <div class="card mb-3">
         <div class="card-header text-primary">
         <i class="fas fa-car-alt text-secondary"></i>
-            Detail Vehicle
+            Detail User
         </div>
         <div class="card-body">
     <h1>Tên : {{ user.name | default:'World'}}</h1>
@@ -25,17 +27,19 @@
             <th></th>
         </thred>
         <body>
-            <tr> 
+            <div class="form-group">
+            <tr class="table-warning">
                 <td>{{user.code}}</td>
                 <td>{{user.phone}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.address}}</td>
                 <td><a href= "{% url 'view_vehicle' user.id%}"> View </a></td>
                 <td>
-                    <a href="{% url 'delete' user.id%}" class="btn btn-danger"> Delete </a>
-                    <a href="/parkingmanage" class="btn btn-primary"> Cancel </a>
+                    <a href="{% url 'delete' user.id%}" class="btn btn-outline-danger"> Delete </a>
+                    <a href="/parkingmanage" class="btn btn-outline-primary"> Cancel </a>
                 </td>
             </tr>
+            </div>
         </body>
     </table>
 </div>
