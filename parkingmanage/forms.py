@@ -8,11 +8,12 @@ from parkingmanage.models import ParkingLog, User, Vehicle, Manager
 
 class UserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        self.inst = kwargs.pop('instance', None)
         super().__init__(*args, **kwargs)
-        if self.instance is not None : 
-                self.isUpdate = True 
+        if self.inst is not None : 
+            self.isUpdate = True 
         else :
-                self.isUpdate = False
+            self.isUpdate = False
 
     code = forms.CharField(
         label='Code',
@@ -131,11 +132,12 @@ class UserForm(forms.ModelForm):
 class VehicleForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        self.inst = kwargs.pop('instance', None)
         super().__init__(*args, **kwargs)
-        if self.instance is not None : 
-                self.isUpdate = True 
+        if self.inst is not None : 
+            self.isUpdate = True 
         else :
-                self.isUpdate = False
+            self.isUpdate = False
 
     licensePlate = forms.CharField(
         label='License Plate',
@@ -207,11 +209,12 @@ class VehicleForm(forms.ModelForm):
 class LogForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        self.inst = kwargs.pop('instance', None)
         super().__init__(*args, **kwargs)
-        if self.instance is not None : 
-                self.isUpdate = True 
+        if self.inst is not None : 
+            self.isUpdate = True 
         else :
-                self.isUpdate = False
+            self.isUpdate = False
 
     logId = forms.CharField(
         label='Log ID',
@@ -355,6 +358,7 @@ class ManagerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.usertype = kwargs.pop('role', None)
+        self.inst = kwargs.pop('instance', None)
         super(ManagerForm, self).__init__(*args, **kwargs)
         if self.usertype == 'Manager':
             self.fields['role'].choices = (
@@ -365,13 +369,13 @@ class ManagerForm(forms.ModelForm):
                 ('Manager', 'Manager'),
                 ('Staff', 'Staff'),
             )
-        if self.instance is not None:
+        if self.inst is not None:
             self.isUpdate = True
-            # self.fields['code'].widget.attrs['readonly'] = True
+            self.fields['code'].widget.attrs['readonly'] = True
         else:
             self.isUpdate = False
             print("Create")
-            # self.fields['code'].widget.attrs['readonly'] = False
+            self.fields['code'].widget.attrs['readonly'] = False
 
     def clean_code(self):
         code = self.cleaned_data.get('code')
