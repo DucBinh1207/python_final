@@ -1,57 +1,94 @@
 {% extends 'base.html' %}
 {% block content %}
-<form>
-    <div class=" row">
-        <div class="col-auto">    
-            <input class="form-control"  type="text" name="keyword" value ="{{keyword | default:''}}" placeholder="Please enter keyword">
+            <center><div class="card-header text-primary">QUẢN LÝ BÃI ĐỖ XE</div></center>
+            <br>
+{% comment %}  {% endcomment %}
+<div class="col-md-12 col-sm-12 col-xs-10">
+    <div class="card mb-3">
+        <div class="card-header text-primary">
+        <i class="fas fa-car-alt text-secondary"></i>
+            List Vehicle
         </div>
-        <div class="col-auto">  
-            <input class="btn btn-outline-primary" type="submit" value="Search">
+        <div class="card-body">
+            <form>
+                <div class=" row">
+                    <div class="col-auto"> 
+                        <div class = "sort">
+                        <select name="selectsort" >
+                            <option value="" selected disabled hidden>Choose here</option>
+                            <option value="code">code</option>
+                            <option value="name">name</option>
+                            <option value="phone">phone</option>
+                            <option value="email">email</option>
+                            <option value="address">address</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-auto"> 
+                        <div class = "sort">
+                        <input class="btn btn-outline-primary" type="submit" value="Sort">
+                        </div>
+                    </div>
+                        <div class="col-auto"> 
+                            <div class = "search">  
+                            <input class="form-control"  type="text" name="keyword" value ="{{keyword | default:''}}" placeholder="Please enter keyword">
+                            </div>
+                        </div>
+                        <div class="col-auto">  
+                            <div class = "search">
+                            <input class="btn btn-outline-primary" type="submit" value="Search">
+                            </div>
+                        </div>  
+                </div>
+            </form>
+            {% comment %} <div class="form-group">
+                <div class="row">
+                    <div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
+                    <div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
+                </div>          
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col"><input type="text" class="form-control" name="phone_number" placeholder="Phone Number" required="required"></div>
+                    <div class="col"><input type="text" class="form-control" name="card_number" placeholder="Car Number" required="required"></div>
+                </div>          
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col"><input type="text" class="form-control" name="car_color" placeholder="Color of Car" required="required"></div>
+                    <div class="col"><input type="text" class="form-control" name="car_model" placeholder="Car Brand Name" required="required"></div>
+                </div>          
+            </div> {% endcomment %}
+            <table class="table table-striped table-hover; table-warning">
+                <thred >
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Vehicle</th>
+                    <th> <a href="/parkingmanage/create" class="btn btn-outline-success"> Add </a> </th>
+                <body>
+                    <div class="form-group">
+                    {% for user in users %}
+                    <tr class="table-warning"> 
+                        
+                        <td>{{user.code}}</td>
+                        <td> <a href= "{{user.get_absolute_url}}">{{user.name}}</a></td>
+                        <td>{{user.phone}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.address}}</td>
+                        <td> <a href= "{% url 'view_vehicle' user.id%}"> View </a> </td>
+                        <td>
+                            <a href="{% url 'update' user.id%}" class="btn btn-outline-primary"> Update </a>
+                            <a href="{% url 'delete' user.id%}" class="btn btn-outline-danger"> Delete </a>
+                        </td>
+                    </tr>
+                    <div>
+                    {% endfor %}
+                </body>
+            </table>
         </div>
-        <div class="col-auto"> 
-                <select name="selectsort" >
-                    <option value="" selected disabled hidden>Choose here</option>
-                    <option value="code">code</option>
-                    <option value="name">name</option>
-                    <option value="phone">phone</option>
-                    <option value="email">email</option>
-                    <option value="address">address</option>
-                </select>  
-        </div>
-        <div class="col-auto"> 
-            <input class="btn btn-outline-primary" type="submit" value="Sort">
-        </div>
-    </div>
-</form>
-
-
-<table class="table table-striped table-hover; table-warning">
-    <thred >
-        <th>Code</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>Vehicle</th>
-        <th> <a href="/parkingmanage/create" class="btn btn-outline-success"> Add </a> </th>
-    </thred>
-    <body>
-        {% for user in users %}
-        <tr class="table-warning"> 
-            <td>{{user.code}}</td>
-            <td> <a href= "{{user.get_absolute_url}}">{{user.name}}</a></td>
-            <td>{{user.phone}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.address}}</td>
-            <td> <a href= "{% url 'view_vehicle' user.id%}"> View </a> </td>
-            <td>
-                <a href="{% url 'update' user.id%}" class="btn btn-outline-primary"> Update </a>
-                <a href="{% url 'delete' user.id%}" class="btn btn-outline-danger"> Delete </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </body>
-</table>
     <!-- <p> {{user.id}}            
     <a href = "{{user.get_absolute_url }}" > {{user.name}}</p> -->
 {% endblock %}

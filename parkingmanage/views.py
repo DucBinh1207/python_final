@@ -20,7 +20,7 @@ def update_view(request, id):
         form.save()
         return redirect('/parkingmanage')
     context = {'form': form}
-    return render(request, 'create.html', context)
+    return render(request, 'update.html', context)
 
 def delete_view(request, id):
     user = get_object_or_404(User, id=id)

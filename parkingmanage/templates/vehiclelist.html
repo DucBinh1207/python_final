@@ -1,52 +1,70 @@
 {% extends 'base.html' %}
 {% block content %}
-<form>
-    <div class="row">
-        <div class="col-auto">    
-            <input class="form-control" type="text" name="keyword" value ="{{keyword | default:''}}" placeholder="Please enter keyword">
+<div class="col-md-12 col-sm-12 col-xs-10">
+    <div class="card mb-3">
+        <div class="card-header text-primary">
+        <i class="fas fa-car-alt text-secondary"></i>
+            Create Vehicle
         </div>
-        <div class="col-auto"> 
-            <input class="btn btn-outline-primary" type="submit" value="Search">
-        </div>
-        <div class="col-auto"> 
-            <select name="selectsort">
-                <option value="" selected disabled hidden>Choose here</option>
-                <option value="licensePlate">licensePlate</option>
-                <option value="type">type</option>
-                <option value="brand">brand</option>
-            </select>
-        </div>
-        <div class="col-auto"> 
-            <input class="btn btn-outline-primary" type="submit" value="Sort">
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-auto"> 
+                        <div class = "sort">
+                        <select name="selectsort">
+                            <option value="" selected disabled hidden>Choose here</option>
+                            <option value="licensePlate">licensePlate</option>
+                            <option value="type">type</option>
+                            <option value="brand">brand</option>
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-auto"> 
+                        <div class = "sort">
+                        <input class="btn btn-outline-primary" type="submit" value="Sort">
+                        </div>
+                    </div>
+                    <div class="col-auto">  
+                        <div class = "sort">
+                        <input class="form-control" type="text" name="keyword" value ="{{keyword | default:''}}" placeholder="Please enter keyword">
+                        </div>
+                    </div>
+                    <div class="col-auto"> 
+                        <div class = "sort">
+                        <input class="btn btn-outline-primary" type="submit" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <table class="table table-striped table-hover; table-warning">
+                <thred>
+                    <th>LicensePlate</th>
+                    <th>Color</th>
+                    <th>Type</th>
+                    <th>Brand</th>
+                    <th>Log</th>
+                    <th> <a href="/parkingmanage/create" class="btn btn-outline-success"> Add </a> </th>
+                </thred>
+                <body>
+                    {% for vehicle in vehicles %}
+                    <tr> 
+                        <td><a href= "{{vehicle.get_absolute_url}}">{{vehicle.licensePlate}} </a> </td>
+                        <td>{{vehicle.color}}</td>
+                        <td>{{vehicle.type}}</td>
+                        <td>{{vehicle.brand}}</td>
+                        <td> <a href= "{% url 'view_log' vehicle.id%}}">  View  </a> </td>
+                        <td>
+                            <a href="{% url 'update' vehicle.id%}" class="btn btn-outline-primary"> Update </a>
+                            <a href="{% url 'delete' vehicle.id%}" class="btn btn-outline-danger"> Delete </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </body>
+            </table>
         </div>
     </div>
-</form>
-
-
-<table class="table table-striped table-hover; table-warning">
-    <thred>
-        <th>LicensePlate</th>
-        <th>Color</th>
-        <th>Type</th>
-        <th>Brand</th>
-        <th>Log</th>
-        <th> <a href="/parkingmanage/create" class="btn btn-outline-success"> Add </a> </th>
-    </thred>
-    <body>
-        {% for vehicle in vehicles %}
-        <tr> 
-            <td><a href= "{{vehicle.get_absolute_url}}">{{vehicle.licensePlate}} </a> </td>
-            <td>{{vehicle.color}}</td>
-            <td>{{vehicle.type}}</td>
-            <td>{{vehicle.brand}}</td>
-            <td> <a href= "{% url 'view_log' vehicle.id%}}">  View  </a> </td>
-            <td>
-                <a href="{% url 'update' vehicle.id%}" class="btn btn-outline-primary"> Update </a>
-                <a href="{% url 'delete' vehicle.id%}" class="btn btn-outline-danger"> Delete </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </body>
-</table>
+</div>
 {% endblock %}
 

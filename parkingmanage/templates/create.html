@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method="POST">{% csrf_token %}
-    {{ form.as_p }}
-    <input class="btn btn-success" type="submit" value="Save" />
-    <a href="/parkingmanage" class="btn btn-info"> Add Vehicle</a> 
-    <a href="/parkingmanage" class="btn btn-danger"> Cancel </a>
-</form>
+<div class="col-md-12 col-sm-12 col-xs-10">
+    <div class="card mb-3">
+        <div class="card-header text-primary">
+        <i class="fas fa-car-alt text-secondary"></i>
+            Create Vehicle
+        </div>
+        <div class="card-body">
+            <form method="POST">{% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-success" type="submit" value="Save" />
+                <a href="/parkingmanage" class="btn btn-info"> Add Vehicle</a> 
+                <a href="/parkingmanage" class="btn btn-danger"> Cancel </a>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
