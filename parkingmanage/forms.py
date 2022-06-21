@@ -83,29 +83,29 @@ class UserForm(forms.ModelForm):
             else :
                 raise forms.ValidationError('The code already exist!')
     
-    def clean_phone(self, *args, **kwargs):
-        new_phone = self.cleaned_data.get('phone')
-        Users = User.objects.filter(phone=new_phone)
-        if not new_phone.isnumeric():
-            raise forms.ValidationError('The phone number should be digit only!')
-        elif Users.exists() and not self.isUpdate : 
-            raise forms.ValidationError('The phone number already exist!')
-        else :  
-            if self.instance.phone == new_phone : 
-                return new_phone
-            else :
-                raise forms.ValidationError('The email already exist!')
+    # def clean_phone(self, *args, **kwargs):
+    #     new_phone = self.cleaned_data.get('phone')
+    #     Users = User.objects.filter(phone=new_phone)
+    #     if not new_phone.isnumeric():
+    #         raise forms.ValidationError('The phone number should be digit only!')
+    #     elif Users.exists() and not self.isUpdate : 
+    #         raise forms.ValidationError('The phone number already exist!')
+    #     else :  
+    #         if self.instance.phone == new_phone : 
+    #             return new_phone
+    #         else :
+    #             raise forms.ValidationError('The email already exist!')
 
-    def clean_email(self, *args, **kwargs):
-        new_email = self.cleaned_data.get('email')
-        Users = User.objects.filter(email=new_email)
-        if Users.exists() and not self.isUpdate : 
-            raise forms.ValidationError('The email already exist!')
-        else :  
-            if self.instance.email == new_email : 
-                return new_email
-            else :
-                raise forms.ValidationError('The email already exist!')
+    # def clean_email(self, *args, **kwargs):
+    #     new_email = self.cleaned_data.get('email')
+    #     Users = User.objects.filter(email=new_email)
+    #     if Users.exists() and not self.isUpdate : 
+    #         raise forms.ValidationError('The email already exist!')
+    #     else :  
+    #         if self.instance.email == new_email : 
+    #             return new_email
+    #         else :
+    #             raise forms.ValidationError('The email already exist!')
 
             
 
