@@ -368,7 +368,7 @@ def list_view_log(request):
     if Selectsort not in ['logId', 'vehicle']:
         Selectsort = 'logId'
     if keyword :
-        logs = ParkingLog.objects.filter(logId__icontains=keyword) | ParkingLog.objects.filter(vehicle__icontains=keyword)
+        logs = ParkingLog.objects.filter(logId__icontains=keyword) | ParkingLog.objects.filter(vehicle__licensePlate__icontains=keyword)
     else :
         logs = ParkingLog.objects.all()
     context = {
