@@ -1,3 +1,4 @@
+from distutils.log import Log
 from django import forms
 from parkingmanage.models import ParkingLog, User, Vehicle
 
@@ -5,17 +6,12 @@ from parkingmanage.models import ParkingLog, User, Vehicle
 #############################  USER   ############################
 
 class UserForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     users = User.objects.all()
-    #     vehicles = Vehicle.objects.all()
-    #     _delete = []
-
-    #     for _user in users:
-    #         _delete.append(_user.vehicle)
-    #     vehicles.filter(licensePlate__in=_delete).delete()
-
-    #     self.fields['vehicle'].queryset = vehicles   
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance is not None : 
+                self.isUpdate = True 
+        else :
+                self.isUpdate = False
 
     code = forms.CharField(
         label='code',
@@ -75,14 +71,55 @@ class UserForm(forms.ModelForm):
 
     def clean_code(self, *args, **kwargs):
         new_code = self.cleaned_data.get('code')
+        Users = User.objects.filter(code=new_code)
         if not new_code.isnumeric():
             raise forms.ValidationError('The code should be digit only!')
-        return new_code
+        elif Users.exists() and not self.isUpdate : 
+            raise forms.ValidationError('The code already exist!')
+        else :  
+            if self.instance.code == new_code : 
+                return new_code
+            else :
+                raise forms.ValidationError('The code already exist!')
+    
+    def clean_phone(self, *args, **kwargs):
+        new_phone = self.cleaned_data.get('phone')
+        Users = User.objects.filter(phone=new_phone)
+        if not new_phone.isnumeric():
+            raise forms.ValidationError('The phone number should be digit only!')
+        elif Users.exists() and not self.isUpdate : 
+            raise forms.ValidationError('The phone number already exist!')
+        else :  
+            if self.instance.phone == new_phone : 
+                return new_phone
+            else :
+                raise forms.ValidationError('The email already exist!')
+
+    def clean_email(self, *args, **kwargs):
+        new_email = self.cleaned_data.get('email')
+        Users = User.objects.filter(email=new_email)
+        if Users.exists() and not self.isUpdate : 
+            raise forms.ValidationError('The email already exist!')
+        else :  
+            if self.instance.email == new_email : 
+                return new_email
+            else :
+                raise forms.ValidationError('The email already exist!')
+
+            
+
 
 #############################  VEHICLE   ############################
 
 
 class VehicleForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance is not None : 
+                self.isUpdate = True 
+        else :
+                self.isUpdate = False
 
     licensePlate = forms.CharField(
         label='License Plate',
@@ -131,6 +168,17 @@ class VehicleForm(forms.ModelForm):
             'brand',
             'user'
             ] 
+    
+    def clean_licensePlate(self, *args, **kwargs):
+        new_licensePlate = self.cleaned_data.get('licensePlate')
+        Vehicles = Vehicle.objects.filter(licensePlate=new_licensePlate)
+        if Vehicles.exists() and not self.isUpdate : 
+            raise forms.ValidationError('The License Plate already exist!')
+        else :  
+            if self.instance.licensePlate == new_licensePlate : 
+                return new_licensePlate
+            else :
+                raise forms.ValidationError('The License Plate already exist!')
 
 
 #############################  PARKING LOG   ############################
@@ -138,6 +186,13 @@ class VehicleForm(forms.ModelForm):
 
 class LogForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance is not None : 
+                self.isUpdate = True 
+        else :
+                self.isUpdate = False
+                
     logId = forms.CharField(
         label='Log ID',
         required=True,
@@ -149,6 +204,8 @@ class LogForm(forms.ModelForm):
         )
     )
 
+
+
     class Meta:
         model = ParkingLog
         fields = [
@@ -158,8 +215,21 @@ class LogForm(forms.ModelForm):
             'vehicle'
             ]  
         widgets = {
-            'timeIn': forms.DateTimeInput(),
-            'timeOut': forms.DateTimeInput(),
+            'timeIn': forms.DateTimeInput(attrs={'placeholder': 'YYYY-MM-DD HH-MM-SS','size': '25'}),
+            'timeOut': forms.DateTimeInput(attrs={'placeholder': 'YYYY-MM-DD HH-MM-SS','size': '25'}),
         }
+
+    def clean_logId(self, *args, **kwargs):
+        new_logId = self.cleaned_data.get('logId')
+        Logs = Log.objects.filter(logId=new_logId)
+        if not new_logId.isnumeric():
+            raise forms.ValidationError('The logId should be digit only!')
+        elif Logs.exists() and not self.isUpdate : 
+            raise forms.ValidationError('The logId already exist!')
+        else :  
+            if self.instance.logId == new_logId : 
+                return new_logId
+            else :
+                raise forms.ValidationError('The logId already exist!')
 
     
