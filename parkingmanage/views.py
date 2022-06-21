@@ -19,7 +19,7 @@ def login_view(request):
         except:
             context = {
                 'error': 'Username or Password is incorrect.',
-                'display': 'block'
+                'display': ''
             }
             return render(request, 'login.html', context)
     elif request.session['username'] is not None:
@@ -27,18 +27,22 @@ def login_view(request):
     return render(request, 'login.html', { 'display': 'none' })
 
 def logout_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     request.session['username'] = None
     request.session['usertype'] = None
     return render(request, 'login.html', { 'display': 'none' })
 
 # User View
 def create_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     form = UserForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -55,12 +59,14 @@ def create_view(request):
 
 
 def update_view(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     user = get_object_or_404(User, id=id)
     form = UserForm(request.POST or None, instance=user )
     if form.is_valid():
@@ -75,12 +81,14 @@ def update_view(request, id):
 
 
 def delete_view(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     user = get_object_or_404(User, id=id)
     if request.method == 'POST':
         user.delete()
@@ -92,12 +100,14 @@ def delete_view(request, id):
     return render(request, 'delete.html', context)
 
 def detail_view(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     user = get_object_or_404(User, id=id)
     vehicles = Vehicle.objects.all()
     context = {
@@ -108,12 +118,14 @@ def detail_view(request, id):
     return render(request, 'detail.html', context)
 
 def list_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     keyword = request.GET.get('keyword')
     Selectsort = request.GET.get('selectsort')
     if Selectsort not in ['code', 'name', 'phone', 'email', 'address']:
@@ -133,12 +145,14 @@ def list_view(request):
     return render(request,"list.html",context)   
     
 def view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     vehicles = Vehicle.objects.all()
 
     _delete = []
@@ -148,28 +162,23 @@ def view_vehicle(request, id):
     _vehicles = vehicles.filter(licensePlate__in=_delete)
 
     if (_vehicles.count() == 0):
-        context = {'vehicles': _vehicles, "alert_flag" : True}
+        context = {'mode': mode, 'vehicles': _vehicles, "alert_flag" : True}
         return render(request, 'vehicleview.html', context)
     else : 
-        context = {'vehicles': _vehicles, "alert_flag" : False}
+        context = {'mode': mode, 'vehicles': _vehicles, "alert_flag" : False}
         return render(request, 'vehicleview.html', context)
-    
-    
-    context = {
-        'mode': mode,
-        'vehicles': _vehicles
-    }
-    return render(request, 'vehicleview.html', context)
 
 # Vehicle
 
 def create_view_vehicle(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     form = VehicleForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -181,12 +190,14 @@ def create_view_vehicle(request):
     return render(request, 'vehiclecreate.html', context)
 
 def update_view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     vehicle = get_object_or_404(Vehicle, id=id)
     form = VehicleForm(request.POST or None, instance = vehicle )
     if form.is_valid():
@@ -199,12 +210,14 @@ def update_view_vehicle(request, id):
     return render(request, 'vehiclecreate.html', context)
 
 def detail_view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     vehicle = get_object_or_404(Vehicle, id=id)
     context = {
         'mode': mode,
@@ -213,12 +226,14 @@ def detail_view_vehicle(request, id):
     return render(request, 'vehicledetail.html', context)
 
 def delete_view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     vehicle = get_object_or_404(Vehicle, id=id)
     if request.method == 'POST':
         vehicle.delete()
@@ -230,12 +245,14 @@ def delete_view_vehicle(request, id):
     return render(request, 'vehicledelete.html', context)
 
 def list_view_vehicle(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     keyword = request.GET.get('keyword')
     Selectsort = request.GET.get('selectsort')
     if Selectsort not in ['licensePlate','color' , 'type', 'brand']:
@@ -252,12 +269,14 @@ def list_view_vehicle(request):
     return render(request,"vehiclelist.html",context)   
 
 def view_log(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     logs = ParkingLog.objects.all()
 
     _delete = []
@@ -278,12 +297,14 @@ def view_log(request, id):
 # Log View
 
 def create_view_log(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     form = LogForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -295,12 +316,14 @@ def create_view_log(request):
     return render(request, 'logcreate.html', context)
 
 def update_view_log(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     log = get_object_or_404(ParkingLog, id=id)
     form = LogForm(request.POST or None, instance = log )
     if form.is_valid():
@@ -313,12 +336,14 @@ def update_view_log(request, id):
     return render(request, 'logupdate.html', context)
 
 def delete_view_log(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     log = get_object_or_404(ParkingLog, id=id)
     if request.method == 'POST':
         log.delete()
@@ -330,12 +355,14 @@ def delete_view_log(request, id):
     return render(request, 'logdelete.html', context)
 
 def list_view_log(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     keyword = request.GET.get('keyword')
     Selectsort = request.GET.get('selectsort')
     if Selectsort not in ['logId', 'vehicle']:
@@ -357,6 +384,8 @@ def parking_view(request):
 
 # Manage View
 def manage_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -364,7 +393,7 @@ def manage_view(request):
         return redirect('/parkingmanage/')
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
 
     keyword = request.GET.get('keyword')
     Selectsort = request.GET.get('selectsort')
@@ -384,6 +413,8 @@ def manage_view(request):
     return render(request, 'managelist.html', context)
 
 def create_view_manager(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -391,7 +422,7 @@ def create_view_manager(request):
         return redirect('/parkingmanage/')
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
 
     form = ManagerForm(request.POST or None, role=usertype)
     if form.is_valid():
@@ -404,6 +435,8 @@ def create_view_manager(request):
     return render(request, 'managecreate.html', context)
 
 def update_view_manager(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -411,7 +444,7 @@ def update_view_manager(request, id):
         return redirect('/parkingmanage/')
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
 
     manager = get_object_or_404(Manager, id=id)
     form = ManagerForm(request.POST or None, instance = manager, role=usertype)
@@ -425,6 +458,8 @@ def update_view_manager(request, id):
     return render(request, 'manageupdate.html', context)
 
 def delete_view_manager(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -432,7 +467,7 @@ def delete_view_manager(request, id):
         return redirect('/parkingmanage/')
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
 
     manager = get_object_or_404(Manager, id=id)
     if request.method == 'POST':
@@ -445,6 +480,8 @@ def delete_view_manager(request, id):
     return render(request, 'managedelete.html', context)
 
 def detail_view_manager(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -452,7 +489,7 @@ def detail_view_manager(request, id):
         return redirect('/parkingmanage/')
     usertype = request.session['usertype']
     if usertype == 'Administrator' or usertype == 'Manager':
-        mode = 'block'
+        mode = ''
     
     manager = get_object_or_404(Manager, id=id)
     context = {

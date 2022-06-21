@@ -8,11 +8,12 @@ from parkingmanage.models import ParkingLog, User, Vehicle, Manager
 
 class UserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        self.inst = kwargs.pop('instance', None)
         super().__init__(*args, **kwargs)
-        if self.instance is not None : 
-                self.isUpdate = True 
+        if self.inst is not None : 
+            self.isUpdate = True 
         else :
-                self.isUpdate = False
+            self.isUpdate = False
 
     code = forms.CharField(
         label='Code',
@@ -131,11 +132,12 @@ class UserForm(forms.ModelForm):
 class VehicleForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        self.inst = kwargs.pop('instance', None)
         super().__init__(*args, **kwargs)
-        if self.instance is not None : 
-                self.isUpdate = True 
+        if self.inst is not None : 
+            self.isUpdate = True 
         else :
-                self.isUpdate = False
+            self.isUpdate = False
 
     licensePlate = forms.CharField(
         label='License Plate',
@@ -207,11 +209,12 @@ class VehicleForm(forms.ModelForm):
 class LogForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        self.inst = kwargs.pop('instance', None)
         super().__init__(*args, **kwargs)
-        if self.instance is not None : 
-                self.isUpdate = True 
+        if self.inst is not None : 
+            self.isUpdate = True 
         else :
-                self.isUpdate = False
+            self.isUpdate = False
 
     logId = forms.CharField(
         label='Log ID',
@@ -355,6 +358,7 @@ class ManagerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.usertype = kwargs.pop('role', None)
+        self.inst = kwargs.pop('instance', None)
         super(ManagerForm, self).__init__(*args, **kwargs)
         if self.usertype == 'Manager':
             self.fields['role'].choices = (
@@ -365,43 +369,62 @@ class ManagerForm(forms.ModelForm):
                 ('Manager', 'Manager'),
                 ('Staff', 'Staff'),
             )
-        if self.instance is not None:
+        if self.inst is not None:
             self.isUpdate = True
+            self.fields['code'].widget.attrs['readonly'] = True
         else:
             self.isUpdate = False
+            print("Create")
+            self.fields['code'].widget.attrs['readonly'] = False
 
     def clean_code(self):
         code = self.cleaned_data.get('code')
         manager = Manager.objects.filter(code=code)
-        if manager.exists() and not self.isUpdate :
-            raise forms.ValidationError('Mã nhân viên đã tồn tại!')
-        else: 
-            if self.instance.code == code : #user01
-                return code
+        if not self.isUpdate : # Create
+            if manager.exists() : 
+                raise forms.ValidationError('The code already exist!')
             else :
-                raise forms.ValidationError('Mã nhân viên đã tồn tại!')
+                return code
+        else :  # Update
+            if self.instance.code == code : 
+                return code
+            elif manager.exists() :
+                raise forms.ValidationError('The code already exist!')
+            else : 
+                return code
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
         manager = Manager.objects.filter(username=username)
-        if manager.exists() and not self.isUpdate :
-            raise forms.ValidationError('Tên tài khoản đã tồn tại!')
-        else: 
-            if self.instance.username == username : #user01
-                return username
+        if not self.isUpdate : # Create
+            if manager.exists() : 
+                raise forms.ValidationError('The username already exist!')
             else :
-                raise forms.ValidationError('Tên tài khoản đã tồn tại!')
+                return username
+        else :  # Update
+            if self.instance.username == username : 
+                return username
+            elif manager.exists() :
+                raise forms.ValidationError('The username already exist!')
+            else : 
+                return username
+        
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
         manager = Manager.objects.filter(phone=phone)
-        if manager.exists() and not self.isUpdate :
-            raise forms.ValidationError('Số điện thoại đã tồn tại!')
-        else: 
-            if self.instance.phone == phone : #user01
-                return phone
+        if not self.isUpdate : # Create
+            if manager.exists() : 
+                raise forms.ValidationError('The phone already exist!')
             else :
-                raise forms.ValidationError('Số điện thoại đã tồn tại!')
+                return phone
+        else :  # Update
+            if self.instance.phone == phone : 
+                return phone
+            elif manager.exists() :
+                raise forms.ValidationError('The phone already exist!')
+            else : 
+                return phone
 
     def clean_email(self, *args, **kwargs):
         email = self.cleaned_data.get('email')
