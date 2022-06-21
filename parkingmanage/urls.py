@@ -1,5 +1,12 @@
 from django.urls import path
-from .views import login_view, logout_view, create_view_log, create_view_vehicle, delete_view, delete_view_log, delete_view_vehicle, detail_view, create_view, detail_view_vehicle, list_view, list_view_log, list_view_vehicle, update_view, update_view_log, update_view_vehicle, view_log, view_vehicle, manage_view, create_view_manager, update_view_manager, delete_view_manager, detail_view_manager
+from .views import login_view, logout_view, create_view_log, \
+                    create_view_vehicle, delete_view, delete_view_log, \
+                    delete_view_vehicle, detail_view, create_view, \
+                    detail_view_vehicle, list_view, list_view_log, \
+                    list_view_vehicle, update_view, update_view_log, \
+                    update_view_vehicle, view_log, view_vehicle, \
+                    manage_view, create_view_manager, update_view_manager, \
+                    delete_view_manager, detail_view_manager
 
 urlpatterns = [
     path('login', login_view ,name ="login"),
