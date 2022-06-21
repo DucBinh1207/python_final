@@ -264,7 +264,6 @@ class ManagerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.usertype = kwargs.pop('role', None)
         super(ManagerForm, self).__init__(*args, **kwargs)
-        print(self.usertype)
         if self.usertype == 'Manager':
             self.fields['role'].choices = (
                 ('Staff', 'Staff'),
@@ -274,6 +273,43 @@ class ManagerForm(forms.ModelForm):
                 ('Manager', 'Manager'),
                 ('Staff', 'Staff'),
             )
+        if self.instance is not None:
+            self.isUpdate = True
+        else:
+            self.isUpdate = False
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        manager = Manager.objects.filter(code=code)
+        if manager.exists() and not self.isUpdate :
+            raise forms.ValidationError('Mã nhân viên đã tồn tại!')
+        else: 
+            if self.instance.code == code : #user01
+                return code
+            else :
+                raise forms.ValidationError('Mã nhân viên đã tồn tại!')
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        manager = Manager.objects.filter(username=username)
+        if manager.exists() and not self.isUpdate :
+            raise forms.ValidationError('Tên tài khoản đã tồn tại!')
+        else: 
+            if self.instance.username == username : #user01
+                return username
+            else :
+                raise forms.ValidationError('Tên tài khoản đã tồn tại!')
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        manager = Manager.objects.filter(phone=phone)
+        if manager.exists() and not self.isUpdate :
+            raise forms.ValidationError('Số điện thoại đã tồn tại!')
+        else: 
+            if self.instance.phone == phone : #user01
+                return phone
+            else :
+                raise forms.ValidationError('Số điện thoại đã tồn tại!')
 
     def clean_email(self, *args, **kwargs):
         email = self.cleaned_data.get('email')
