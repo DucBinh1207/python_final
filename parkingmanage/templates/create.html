@@ -10,7 +10,6 @@
             <form method="POST">{% csrf_token %}
                 {{ form.as_p }}
                 <input class="btn btn-success" type="submit" value="Save" />
-                <a href="/parkingmanage" class="btn btn-info"> Add Vehicle</a> 
                 <a href="/parkingmanage" class="btn btn-danger"> Cancel </a>
             </form>
         </div>

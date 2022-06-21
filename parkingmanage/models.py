@@ -3,7 +3,6 @@ from tkinter import N
 from django.db import models
 from django.urls import reverse
 from django.core.validators import RegexValidator
-from sympy import true
 
 # Create your models here.
 class User(models.Model):

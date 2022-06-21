@@ -10,7 +10,7 @@
             {% if alert_flag %}
               <script>alert("Không có xe !")</script>
               <a href="/parkingmanage/vehicle/create" class="btn btn-success"> Add Vehicle </a>  
-              <a href="parkingmanage/vehicle" class="btn btn-primary"> Cancel </a>
+              <a href="/parkingmanage/vehicle" class="btn btn-primary"> Cancel </a>
             {% else %}
             {% for vehicle in vehicles %}
             <h1> License Plate : {{ vehicle.licensePlate | default:'None'}}</h1>
