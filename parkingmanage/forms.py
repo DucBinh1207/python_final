@@ -75,37 +75,52 @@ class UserForm(forms.ModelForm):
         Users = User.objects.filter(code=new_code)
         if not new_code.isnumeric():
             raise forms.ValidationError('The code should be digit only!')
-        elif Users.exists() and not self.isUpdate : 
-            raise forms.ValidationError('The code already exist!')
-        else :  
+        elif not self.isUpdate : # Create
+            if Users.exists() : 
+                raise forms.ValidationError('The code already exist!')
+            else :
+                return new_code
+        else :  # Update
             if self.instance.code == new_code : 
                 return new_code
-            else :
+            elif Users.exists() :
                 raise forms.ValidationError('The code already exist!')
-    
+            else : 
+                return new_code
+
     def clean_phone(self, *args, **kwargs):
         new_phone = self.cleaned_data.get('phone')
         Users = User.objects.filter(phone=new_phone)
         if not new_phone.isnumeric():
             raise forms.ValidationError('The phone number should be digit only!')
-        elif Users.exists() and not self.isUpdate : 
-            raise forms.ValidationError('The phone number already exist!')
-        else :  
+        elif not self.isUpdate : # Create
+            if Users.exists() : 
+                raise forms.ValidationError('The phone number already exist!')
+            else :
+                return new_phone
+        else :  # Update
             if self.instance.phone == new_phone : 
                 return new_phone
-            else :
-                raise forms.ValidationError('The email already exist!')
+            elif Users.exists() :
+                raise forms.ValidationError('The phone number already exist!')
+            else : 
+                return new_phone
 
     def clean_email(self, *args, **kwargs):
         new_email = self.cleaned_data.get('email')
         Users = User.objects.filter(email=new_email)
-        if Users.exists() and not self.isUpdate : 
-            raise forms.ValidationError('The email already exist!')
-        else :  
+        if not self.isUpdate : # Create
+            if Users.exists() :
+                raise forms.ValidationError('The email already exist!')
+            else :
+                return new_email
+        else :  # Update
             if self.instance.email == new_email : 
                 return new_email
-            else :
+            elif Users.exists() :
                 raise forms.ValidationError('The email already exist!')
+            else :
+                return new_email
 
             
 
@@ -173,14 +188,18 @@ class VehicleForm(forms.ModelForm):
     def clean_licensePlate(self, *args, **kwargs):
         new_licensePlate = self.cleaned_data.get('licensePlate')
         Vehicles = Vehicle.objects.filter(licensePlate=new_licensePlate)
-        if Vehicles.exists() and not self.isUpdate : 
-            raise forms.ValidationError('The License Plate already exist!')
-        else :  
-            if self.instance.licensePlate == new_licensePlate : 
+        if not self.isUpdate : # Create
+            if Vehicles.exists() : # Biển số xe đã tồn tại
+                raise forms.ValidationError('The License Plate already exist! Create')
+            else : # Biển số xe chưa tồn tại
                 return new_licensePlate
-            else :
-                raise forms.ValidationError('The License Plate already exist!')
-
+        else :  # Update
+            if self.instance.licensePlate == new_licensePlate : # Không đổi biển sỗ xe
+                return new_licensePlate
+            elif Vehicles.exists() : # Đổi biển số xe trùng với biển số xe tồn tài
+                raise forms.ValidationError('The License Plate already exist! Update')
+            else : # Đổi biển số xe trùng với biển số xe tồn tài
+                return new_licensePlate
 
 #############################  PARKING LOG   ############################
 
@@ -225,14 +244,18 @@ class LogForm(forms.ModelForm):
         Logs = Log.objects.filter(logId=new_logId)
         if not new_logId.isnumeric():
             raise forms.ValidationError('The logId should be digit only!')
-        elif Logs.exists() and not self.isUpdate : 
-            raise forms.ValidationError('The logId already exist!')
-        else :  
+        elif not self.isUpdate : # Create
+            if Logs.exists() : 
+                raise forms.ValidationError('The logId already exist!')
+            else :
+                return new_logId
+        else :  # Update
             if self.instance.logId == new_logId : 
                 return new_logId
-            else :
+            elif Logs.exists() :
                 raise forms.ValidationError('The logId already exist!')
-    
+            else : 
+                return new_logId
 #############################  Manager  ############################
 
 class ManagerForm(forms.ModelForm):
