@@ -27,12 +27,16 @@ def login_view(request):
     return render(request, 'login.html', { 'display': 'none' })
 
 def logout_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     request.session['username'] = None
     request.session['usertype'] = None
     return render(request, 'login.html', { 'display': 'none' })
 
 # User View
 def create_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -55,6 +59,8 @@ def create_view(request):
 
 
 def update_view(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -75,6 +81,8 @@ def update_view(request, id):
 
 
 def delete_view(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -92,6 +100,8 @@ def delete_view(request, id):
     return render(request, 'delete.html', context)
 
 def detail_view(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -108,6 +118,8 @@ def detail_view(request, id):
     return render(request, 'detail.html', context)
 
 def list_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -133,6 +145,8 @@ def list_view(request):
     return render(request,"list.html",context)   
     
 def view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -148,22 +162,17 @@ def view_vehicle(request, id):
     _vehicles = vehicles.filter(licensePlate__in=_delete)
 
     if (_vehicles.count() == 0):
-        context = {'vehicles': _vehicles, "alert_flag" : True}
+        context = {'mode': mode, 'vehicles': _vehicles, "alert_flag" : True}
         return render(request, 'vehicleview.html', context)
     else : 
-        context = {'vehicles': _vehicles, "alert_flag" : False}
+        context = {'mode': mode, 'vehicles': _vehicles, "alert_flag" : False}
         return render(request, 'vehicleview.html', context)
-    
-    
-    context = {
-        'mode': mode,
-        'vehicles': _vehicles
-    }
-    return render(request, 'vehicleview.html', context)
 
 # Vehicle
 
 def create_view_vehicle(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -181,6 +190,8 @@ def create_view_vehicle(request):
     return render(request, 'vehiclecreate.html', context)
 
 def update_view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -199,6 +210,8 @@ def update_view_vehicle(request, id):
     return render(request, 'vehiclecreate.html', context)
 
 def detail_view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -213,6 +226,8 @@ def detail_view_vehicle(request, id):
     return render(request, 'vehicledetail.html', context)
 
 def delete_view_vehicle(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -230,6 +245,8 @@ def delete_view_vehicle(request, id):
     return render(request, 'vehicledelete.html', context)
 
 def list_view_vehicle(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -252,6 +269,8 @@ def list_view_vehicle(request):
     return render(request,"vehiclelist.html",context)   
 
 def view_log(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -278,6 +297,8 @@ def view_log(request, id):
 # Log View
 
 def create_view_log(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -295,6 +316,8 @@ def create_view_log(request):
     return render(request, 'logcreate.html', context)
 
 def update_view_log(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -313,6 +336,8 @@ def update_view_log(request, id):
     return render(request, 'logupdate.html', context)
 
 def delete_view_log(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -330,6 +355,8 @@ def delete_view_log(request, id):
     return render(request, 'logdelete.html', context)
 
 def list_view_log(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -357,6 +384,8 @@ def parking_view(request):
 
 # Manage View
 def manage_view(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -384,6 +413,8 @@ def manage_view(request):
     return render(request, 'managelist.html', context)
 
 def create_view_manager(request):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -404,6 +435,8 @@ def create_view_manager(request):
     return render(request, 'managecreate.html', context)
 
 def update_view_manager(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -425,6 +458,8 @@ def update_view_manager(request, id):
     return render(request, 'manageupdate.html', context)
 
 def delete_view_manager(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
@@ -445,6 +480,8 @@ def delete_view_manager(request, id):
     return render(request, 'managedelete.html', context)
 
 def detail_view_manager(request, id):
+    if 'username' not in request.session:
+        request.session['username'] = None
     mode = 'none'
     if request.session['username'] is None:
         return render(request, 'login.html', { 'display': 'none' })
