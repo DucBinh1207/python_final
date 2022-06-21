@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+<center><div class="card-header text-primary">QUẢN LÝ BÃI ĐỖ XE</div></center>
+<br>
 <div class="col-md-12 col-sm-12 col-xs-10">
     <div class="card mb-3">
         <div class="card-header text-primary">
         <i class="fas fa-car-alt text-secondary"></i>
-            Create Vehicle
+            View Vehicle
         </div>
         <div class="card-body">
             {% if alert_flag %}
@@ -23,7 +25,8 @@
                     <th></th>
                 </thred>
                 <body>
-                    <tr> 
+                    <div class="form-group">
+                    <tr class="table-warning"> 
                         <td>{{vehicle.color}}</td>
                         <td>{{vehicle.type}}</td>
                         <td>{{vehicle.brand}}
@@ -35,10 +38,11 @@
                         </td>
                         <td><a href= "{% url 'view_log' vehicle.id %}"> View </a></td>
                         <td>
-                            <a href="{% url 'delete_vehicle' vehicle.id%}" class="btn btn-danger"> Delete </a>
-                            <a href="/parkingmanage" class="btn btn-primary"> Cancel </a>
+                            <a href="{% url 'delete_vehicle' vehicle.id%}" class="btn btn-outline-danger"> Delete </a>
+                            <a href="/parkingmanage" class="btn btn-outline-primary"> Cancel </a>
                          </td>
                     </tr>
+                    </div>
                 </body>
             </table>
             {% endfor %}

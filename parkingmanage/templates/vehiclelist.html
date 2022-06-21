@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+<center><div class="card-header text-primary">QUẢN LÝ BÃI ĐỖ XE</div></center>
+            <br>
 <div class="col-md-12 col-sm-12 col-xs-10">
     <div class="card mb-3">
         <div class="card-header text-primary">
         <i class="fas fa-car-alt text-secondary"></i>
-            Create Vehicle
+            Vehicle List
         </div>
         <div class="card-body">
             <form>
@@ -18,7 +20,7 @@
                             <option value="type">Type</option>
                             <option value="brand">Brand</option>
                         </select>
-                    </div>
+                        </div>
                     </div>
                     <div class="col-auto"> 
                         <div class = "sort">
@@ -26,15 +28,16 @@
                         </div>
                     </div>
                     <div class="col-auto">  
-                        <div class = "sort">
+                        <div class = "search">
                         <input class="form-control" type="text" name="keyword" value ="{{keyword | default:''}}" placeholder="Please enter keyword">
                         </div>
                     </div>
                     <div class="col-auto"> 
-                        <div class = "sort">
+                        <div class = "search">
                         <input class="btn btn-outline-primary" type="submit" value="Search">
                         </div>
                     </div>
+                    
                 </div>
             </form>
 
@@ -46,22 +49,24 @@
                     <th>Type</th>
                     <th>Brand</th>
                     <th>Log</th>
-                    <th> <a href="/parkingmanage/vehicle/create" class="btn btn-success"> Add </a> </th>
+                    <th> <a href="/parkingmanage/vehicle/create" class="btn btn-outline-success"> Add </a> </th>
                 </thred>
                 <body>
+                    <div class="form-group">
                     {% for vehicle in vehicles %}
-                    <tr> 
+                    <tr class="table-warning"> 
                         <td><a href= "{{vehicle.get_absolute_url}}">{{vehicle.licensePlate}} </a> </td>
                         <td>{{vehicle.color}}</td>
                         <td>{{vehicle.type}}</td>
                         <td>{{vehicle.brand}}</td>
-                        <td> <a href= "{% url 'view_log' vehicle.id%}}">  View  </a> </td>
+                        <td> <a href= "{% url 'view_log' vehicle.id%}">  View  </a> </td>
                         <td>
-                            <a href="{% url 'update' vehicle.id%}" class="btn btn-outline-primary"> Update </a>
-                            <a href="{% url 'delete' vehicle.id%}" class="btn btn-outline-danger"> Delete </a>
+                            <a href="{% url 'update_vehicle' vehicle.id%}" class="btn btn-outline-primary"> Update </a>
+                            <a href="{% url 'delete_vehicle' vehicle.id%}" class="btn btn-outline-danger"> Delete </a>
                         </td>
                     </tr>
                     {% endfor %}
+                </div>
                 </body>
             </table>
         </div>

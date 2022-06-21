@@ -244,7 +244,7 @@ class LogForm(forms.ModelForm):
 
     def clean_logId(self, *args, **kwargs):
         new_logId = self.cleaned_data.get('logId')
-        Logs = Log.objects.filter(logId=new_logId)
+        Logs = ParkingLog.objects.filter(logId=new_logId)
         if not new_logId.isnumeric():
             raise forms.ValidationError('The logId should be digit only!')
         elif not self.isUpdate : # Create

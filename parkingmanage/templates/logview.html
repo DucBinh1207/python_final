@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<center><div class="card-header text-primary">QUẢN LÝ BÃI ĐỖ XE</div></center>
+<br>
 <div class="col-md-12 col-sm-12 col-xs-10">
     <div class="card mb-3">
         <div class="card-header text-primary">
@@ -22,8 +24,9 @@
                     <th></th>
                  </thred>
                 <body>
+                    <div class="form-group">
                     {% for log in logs %}
-                    <tr> 
+                    <tr class="table-warning">
                         <td>{{log.logId}}</td>
                         <td>{{log.timeIn}}</td>
                         <td>{{log.timeOut}}</td>
@@ -38,6 +41,7 @@
                     </td>
                     </tr>
                     {% endfor %}
+                    </div>
                 </body>
             </table>
             {% endif %}

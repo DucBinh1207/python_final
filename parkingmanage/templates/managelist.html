@@ -1,66 +1,88 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form>
-        <div class="row">
-            <div class="col-auto">    
-                <input class="form-control" type="text" name="keyword" value ="{{keyword | default:''}}" placeholder="Please enter keyword">
-            </div>
-            <div class="col-auto"> 
-                <input class="btn btn-outline-primary" type="submit" value="Search">
-            </div>
-            <div class="col-auto"> 
-                <select name="selectsort">
-                    <option value="" selected disabled hidden>Choose here</option>
-                    <option value="name">Name</option>
-                    <option value="role">Role</option>
-                </select>
-            </div>
-            <div class="col-auto"> 
-                <input class="btn btn-outline-primary" type="submit" value="Sort">
-            </div>
+<center><div class="card-header text-primary">QUẢN LÝ BÃI ĐỖ XE</div></center>
+<br>
+<div class="col-md-12 col-sm-12 col-xs-10">
+    <div class="card mb-3">
+        <div class="card-header text-primary">
+            <i class="fas fa-car-alt text-secondary"></i>
+                List Vehicle
         </div>
-    </form>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-auto"> 
+                        <div class = "sort">
+                        <select name="selectsort">
+                            <option value="" selected disabled hidden>Choose here</option>
+                            <option value="name">Name</option>
+                            <option value="role">Role</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-auto"> 
+                        <div class = "sort">
+                        <input class="btn btn-outline-primary" type="submit" value="Sort">
+                        </div>
+                    </div>
+                    <div class="col-auto">  
+                        <div class = "search">  
+                        <input class="form-control" type="text" name="keyword" value ="{{keyword | default:''}}" placeholder="Please enter keyword">
+                    </div>
+                    </div>
+                    <div class="col-auto"> 
+                        <div class = "search">
+                        <input class="btn btn-outline-primary" type="submit" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
 
-    <table class="table table-striped table-hover; table-warning">
-        <thred>
-            <th>code</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th><a href="/parkingmanage/manager/create" class="btn btn-outline-success"> Add </a></th>
-        </thred>
-        <body>
-            {% for manager in managers %}
-            <tr> 
-                <td><a href="{% url 'detail_manager' manager.id%}">{{manager.code}}</a></td>
-                <td>{{manager.name}}</td>
-                <td>{{manager.role}}</td>
-                <td>{{manager.phone}}</td>
-                <td>{{manager.email}}</td>
-                <td>
-                    {% if usertype == 'Administrator'%}
-                        {% if manager.role != 'Administrator'%}
-                            <a href="{% url 'update_manager' manager.id%}" class="btn btn-primary"> Update </a>
-                            <a href="{% url 'delete_manager' manager.id%}" class="btn btn-danger"> Delete </a>
-                        {% elif manager.role == 'Administrator' %}
-                            <button type="button" class="btn btn-secondary" disabled> Owner </button>
-                        {% endif %}
-                    {% endif %}
-                    {% if usertype == 'Manager' %}
-                        {% if manager.role != 'Administrator' and manager.role != 'Manager' %}
-                            <a href="{% url 'update_manager' manager.id%}" class="btn btn-primary"> Update </a>
-                            <a href="{% url 'delete_manager' manager.id%}" class="btn btn-danger"> Delete </a>
-                        {% elif manager.role == 'Administrator' %}
-                            <button type="button" class="btn btn-secondary" disabled> Owner </button>
-                        {% elif manager.role == 'Manager' %}
-                            <button type="button" class="btn btn-secondary" disabled> Manager </button>
-                        {% endif %}
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </body>
-    </table>
+            <table class="table table-striped table-hover; table-warning">
+                <thred>
+                    <th>code</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th><a href="/parkingmanage/manager/create" class="btn btn-outline-success"> Add </a></th>
+                </thred>
+                <body>
+                    <div class="form-group">
+                    {% for manager in managers %}
+                    <tr class="table-warning">
+                        <td><a href="{% url 'detail_manager' manager.id%}">{{manager.code}}</a></td>
+                        <td>{{manager.name}}</td>
+                        <td>{{manager.role}}</td>
+                        <td>{{manager.phone}}</td>
+                        <td>{{manager.email}}</td>
+                        <td>
+                            {% if usertype == 'Administrator'%}
+                                {% if manager.role != 'Administrator'%}
+                                    <a href="{% url 'update_manager' manager.id%}" class="btn btn-outline-primary"> Update </a>
+                                    <a href="{% url 'delete_manager' manager.id%}" class="btn btn-outline-danger"> Delete </a>
+                                {% elif manager.role == 'Administrator' %}
+                                    <button type="button" class="btn btn-secondary" disabled> Owner </button>
+                                {% endif %}
+                            {% endif %}
+                            {% if usertype == 'Manager' %}
+                                {% if manager.role != 'Administrator' and manager.role != 'Manager' %}
+                                    <a href="{% url 'update_manager' manager.id%}" class="btn btn-outline-primary"> Update </a>
+                                    <a href="{% url 'delete_manager' manager.id%}" class="btn btn-outline-danger"> Delete </a>
+                                {% elif manager.role == 'Administrator' %}
+                                    <button type="button" class="btn btn-secondary" disabled> Owner </button>
+                                {% elif manager.role == 'Manager' %}
+                                    <button type="button" class="btn btn-secondary" disabled> Manager </button>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </div>
+                </body>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
