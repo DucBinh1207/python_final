@@ -8,7 +8,7 @@ from parkingmanage.models import ParkingLog, User, Vehicle, Manager
 
 class UserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        self.inst = kwargs.pop('instance', None)
+        self.inst = kwargs.get('instance', None)
         super().__init__(*args, **kwargs)
         if self.inst is not None : 
             self.isUpdate = True 
@@ -132,7 +132,7 @@ class UserForm(forms.ModelForm):
 class VehicleForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        self.inst = kwargs.pop('instance', None)
+        self.inst = kwargs.get('instance', None)
         super().__init__(*args, **kwargs)
         if self.inst is not None : 
             self.isUpdate = True 
@@ -209,7 +209,7 @@ class VehicleForm(forms.ModelForm):
 class LogForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        self.inst = kwargs.pop('instance', None)
+        self.inst = kwargs.get('instance', None)
         super().__init__(*args, **kwargs)
         if self.inst is not None : 
             self.isUpdate = True 
@@ -358,7 +358,7 @@ class ManagerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.usertype = kwargs.pop('role', None)
-        self.inst = kwargs.pop('instance', None)
+        self.inst = kwargs.get('instance', None)
         super(ManagerForm, self).__init__(*args, **kwargs)
         if self.usertype == 'Manager':
             self.fields['role'].choices = (
@@ -374,7 +374,6 @@ class ManagerForm(forms.ModelForm):
             self.fields['code'].widget.attrs['readonly'] = True
         else:
             self.isUpdate = False
-            print("Create")
             self.fields['code'].widget.attrs['readonly'] = False
 
     def clean_code(self):
